@@ -1,18 +1,25 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <secondary-heading>Pedidos</secondary-heading>
+    <ContainerOrder/>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-
+import ContainerOrder from '@/components/ContainerOrder';
+import SecondaryHeading from '@/components/TheSecondaryHeading';
 export default {
   name: 'home',
   components: {
-    HelloWorld
+    ContainerOrder, SecondaryHeading
   }
 }
 </script>
+
+<style lang="scss">
+  .home {
+    height: 100vh;
+    width: 100%;
+  }
+</style>
