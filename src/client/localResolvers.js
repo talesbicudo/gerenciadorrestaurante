@@ -12,7 +12,7 @@ export default {
         },
         totalPrice: function (order) {
             return order.consumedItems.reduce((total, consumed) =>
-                total + consumed.quantity + consumed.itemType.value
+                total + consumed.quantity * consumed.itemType.value
                 , 0)
         }
     }

@@ -48,7 +48,7 @@ export default {
       return [...this.orders].sort(
         (orderA, orderB) =>
           _.last(orderA.updates).date - _.last(orderB.updates).date
-      );
+      ).reverse();
     }
   }
 };

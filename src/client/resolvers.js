@@ -30,7 +30,7 @@ const payment = (value, createdAt) => ({
 
 const item = (limit) => ({
     name: faker.lorem.word(),
-    value: +faker.commerce.price(0, limit, 2),
+    value: +faker.commerce.price(1, limit, 2),
     id: faker.random.uuid()
 })
 
@@ -44,7 +44,7 @@ const consumedItem = (createdAt) => ({
 })
 const createOrder = (numberTable) => {
     const createdAt = faker.date.between(OPEN_DATE, CLOSE_DATE);
-    const itemQ = faker.random.number(3);
+    const itemQ = faker.random.number({min: 1, max: 3});
     const items = [...Array(itemQ)].map(() => consumedItem(createdAt))
     const totalItemPrice = items.length ?
         items.reduce(
@@ -53,7 +53,7 @@ const createOrder = (numberTable) => {
     const lastItemDate = items.length ? _.maxBy(items, 'createdAt').createdAt : createdAt;
     let payments = items.length ?
         [...Array(faker.random.number(itemQ))].map(() =>
-        payment(+faker.commerce.price(0, totalItemPrice / itemQ + 1), lastItemDate)) :
+        payment(+faker.commerce.price(1, totalItemPrice / itemQ + 1), lastItemDate)) :
         [];
     const open = faker.random.boolean();
     if (!open) {
@@ -74,7 +74,7 @@ const createOrder = (numberTable) => {
 const findOrder = id => orders.find(order => order.id === id);
 
 
-let orders = [...Array(ORDERS_QUANTITY).keys()].map(i => createOrder(i));
+let orders = [...Array(ORDERS_QUANTITY).keys()].map(i => createOrder(++i));
 let days = ([day(OPEN_DATE, orders)]);
 
 export default {
