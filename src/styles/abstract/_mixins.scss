@@ -15,10 +15,6 @@
     transform: translate(-50%, -50%);
 }
 
-@mixin hover {
-    cursor: pointer;
-}
-
 // darks element bg on hover
 @mixin hoverableBg($bg-color) {
     background-color: $bg-color;
