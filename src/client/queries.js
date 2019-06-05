@@ -7,6 +7,7 @@ export const OrderFragment = gql`
                 number
             }
             createdAt
+            closedAt
             consumedItems {
                 itemType {
                     name

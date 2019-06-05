@@ -2,7 +2,7 @@
     <div class="order-container">
         <div class="order-container__loader" v-if="$apollo.loading"/>
         <ul v-else class="order-container__list">
-           <li v-for="order in orders" 
+           <li v-for="order in byUpdateOrder" 
            class="order-container__row" :key="order.id">
                <ContainerItemOrder v-bind="order"/>
            </li> 
@@ -10,10 +10,11 @@
     </div>    
 </template>
 <script>
+import gql from "graphql-tag";
+import _ from "lodash";
 import ContainerItemOrder from "./ContainerItemOrder";
 import { OrderFragment } from "@/client/queries";
 import { OrderLocalFragment } from "@/client/queries";
-import gql from "graphql-tag";
 
 export default {
   components: {
@@ -37,7 +38,17 @@ export default {
         ${OrderFragment}
         ${OrderLocalFragment}
       `,
-      variables(){return { dayDate: this.dayDate }}
+      variables() {
+        return { dayDate: this.dayDate };
+      }
+    }
+  },
+  computed: {
+    byUpdateOrder() {
+      return this.orders.sort(
+        (orderA, orderB) =>
+          _.last(orderA.updates).date - _.last(orderB.updates).date
+      );
     }
   }
 };
