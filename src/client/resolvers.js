@@ -1,4 +1,5 @@
 import faker from 'faker';
+import _ from 'lodash';
 
 faker.locale = "pt_BR";
 faker.seed(3);
@@ -6,8 +7,8 @@ const ITEM_QUANTITY = 20;
 const ORDERS_QUANTITY = 30;
 
 const OPEN_DATE = new Date();
-const CLOSE_DATE = new Date(OPEN_DATE.getTime());
-CLOSE_DATE.setHours(OPEN_DATE.getHours() + 1);
+OPEN_DATE.setHours(OPEN_DATE.getHours() - 1);
+const CLOSE_DATE = new Date();
 
 const table = (number) => ({
     id: faker.random.uuid(),
@@ -20,9 +21,9 @@ const day = (date, orders) => ({
     orders
 })
 
-const payment = (limit, createdAt) => ({
+const payment = (value, createdAt) => ({
     provider: faker.name.firstName(),
-    value: +faker.commerce.price(0, limit, 2),
+    value,
     createdAt: faker.date.between(createdAt, CLOSE_DATE),
     id: faker.random.uuid()
 })
@@ -41,7 +42,6 @@ const consumedItem = (createdAt) => ({
     createdAt: faker.date.between(createdAt, CLOSE_DATE),
     id: faker.random.uuid()
 })
-
 const createOrder = (numberTable) => {
     const createdAt = faker.date.between(OPEN_DATE, CLOSE_DATE);
     const itemQ = faker.random.number(3);
@@ -50,16 +50,23 @@ const createOrder = (numberTable) => {
         items.reduce(
             (val, { itemType, quantity }) => val + itemType.value * quantity, 0) :
         0;
+    const lastItemDate = items.length ? _.maxBy(items, 'createdAt').createdAt : createdAt;
+    let payments = items.length ?
+        [...Array(faker.random.number(itemQ))].map(() =>
+        payment(+faker.commerce.price(0, totalItemPrice / itemQ + 1), lastItemDate)) :
+        [];
     const open = faker.random.boolean();
+    if (!open) {
+        const valueToPay = totalItemPrice - _.sumBy(payments, 'value');
+        payments.push(payment(valueToPay, lastItemDate));
+    }
     return {
         consumedItems: items,
-        payments: items.length ?
-            [...Array(faker.random.number(itemQ))].map(() => payment(totalItemPrice / itemQ + 1, createdAt)) :
-            [],
+        payments,
         open,
         table: table(numberTable),
         createdAt,
-        closedAt: !open ? faker.date.between(createdAt, CLOSE_DATE) : null,
+        closedAt: !open ? faker.date.between(_.maxBy(payments, 'createdAt').createdAt, CLOSE_DATE) : null,
         id: faker.random.uuid()
     }
 }
