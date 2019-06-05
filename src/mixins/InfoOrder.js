@@ -5,6 +5,7 @@ export default {
             query: gql`
                 query info ($id: String!){
                     updates(id: $id) @client
+                    totalPrice(id: $id) @client
                 }`,
             variables() {
                 return { id: this.id }

@@ -1,18 +1,18 @@
 <template>
   <div class="home">
     <secondary-heading>Pedidos</secondary-heading>
-    <ContainerOrder/>
+    <LoaderOrders/>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import ContainerOrder from '@/components/ContainerOrder';
+import LoaderOrders from '@/components/LoaderOrders';
 import SecondaryHeading from '@/components/TheSecondaryHeading';
 export default {
   name: 'home',
   components: {
-    ContainerOrder, SecondaryHeading
+    LoaderOrders, SecondaryHeading
   }
 }
 </script>

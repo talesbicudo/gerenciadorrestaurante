@@ -25,3 +25,11 @@ export const OrderFragment = gql`
             }
     }
 `
+
+export const OrderLocalFragment = gql`
+    fragment localOrderData on Order {
+        totalPrice @client
+        updates @client
+    }
+
+`

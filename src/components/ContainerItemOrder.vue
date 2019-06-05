@@ -14,7 +14,6 @@
 </template>
 
 <script>
-import InfoOrder from "@/mixins/InfoOrder";
 import FormatPrice from "@/mixins/FormatPrice";
 import FormatDate from "@/mixins/FormatDate";
 import FormatNumber from "@/mixins/FormatNumber";
@@ -22,7 +21,7 @@ import LockIcon from "vue-ionicons/dist/md-lock";
 import TimeIcon from "vue-ionicons/dist/md-time";
 
 export default {
-  mixins: [InfoOrder, FormatPrice, FormatDate, FormatNumber],
+  mixins: [ FormatPrice, FormatDate, FormatNumber],
   components: { LockIcon, TimeIcon },
   props: {
     table: {
@@ -32,24 +31,9 @@ export default {
       })
     },
 
-    createdAt: {
-      type: Date,
-      default: () => new Date()
-    },
-
     closedAt: {
       type: Date,
       default: () => new Date()
-    },
-
-    id: {
-      type: String,
-      default: "0"
-    },
-
-    items: {
-      type: Array,
-      default: () => [{ itemType: { value: 0 }, quantity: 1 }]
     },
 
     open: {
@@ -57,7 +41,7 @@ export default {
       default: false
     },
 
-    payments: {
+    updates: {
       type: Array,
       default: () => []
     }
@@ -74,7 +58,7 @@ export default {
       return `${base} ${this.open ? base + "--open" : ""}`;
     },
     updateLast: function() {
-      return this.info.updates[this.info.updates.length - 1].date;
+      return this.updates[this.updates.length - 1].date;
     }
   },
 
