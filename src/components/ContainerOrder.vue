@@ -63,8 +63,8 @@ export default {
     selectedOrders() {
       if (!this.search) return this.byUpdateOrder;
       return this.byUpdateOrder.filter(order => {
-        const reg = new RegExp(this.search);
-        return order.searchTags.some(({ value }) => reg.test(value));
+        const reg = new RegExp(String(this.search).toLowerCase());
+        return order.searchTags.some(({ value }) => reg.test(String(value).toLowerCase()));
       });
     }
   }

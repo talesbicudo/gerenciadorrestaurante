@@ -14,7 +14,9 @@
         </div>
         <div v-if="search" class="item-order__search-info">
           <SearchIcon class="item-order__search-icon"/>
-          {{searchInfo}}
+          <p v-for="st in searchInfo" :key="st.value" class="item-order__search-info-item">
+            {{st.type | mapTagType}}: {{st.value}}
+          </p>
         </div>
       </div>
   </div>
@@ -86,15 +88,12 @@ export default {
       return this.updates[this.updates.length - 1].date;
     },
     searchInfo() {
-      return this.searchTags.reduce((info, searchTag) => 
-        `${info}${String(searchTag.value).includes(this.search) ?
-         `\n${this.mapTagType(searchTag.type)}: ${searchTag.value}` :
-          '' 
-         }`, '')
+      return this.searchTags.filter(st =>
+       String(st.value).toLowerCase().includes(this.search))
     }
   },
 
-  methods: {
+  filters: {
     mapTagType(tagType){
       switch(tagType){
         case SEARCH_TAG.ITEM:
