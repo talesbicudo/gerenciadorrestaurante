@@ -5,6 +5,9 @@
           <span class="item-order__table-number">{{table.number | twoDigits}}</span>
         </div>
       <div class="item-order__content">
+        <div class="item-order__number">
+          <p>N° {{number}}</p>
+        </div>
         <div class="item-order__info">
           <p v-if="open"><TimeIcon class="item-order__time-icon"/> {{updateLast | time}}</p>
           <p v-else> <LockIcon class="item-order__time-icon"/> {{closedAt | time}}</p>
@@ -76,11 +79,13 @@ export default {
 
 <style lang="scss">
 .item-order {
+  $inner-padding: 0 .5rem;
   box-shadow: 0.2rem 0.2rem 0.3rem rgba($color-black, 0.2);
   border-radius: 3px;
   overflow: hidden;
   background-color: $color-white;
   &__table-name {
+    display: block;
     text-transform: uppercase;
   }
   &__table-number {
@@ -89,17 +94,24 @@ export default {
   }
   &__header {
     color: $color-white;
-    padding: 0 1rem;
+    padding: $inner-padding;
     @include hoverableBg($color-red);
     &--open {
       @include hoverableBg($color-green);
     }
   }
+  &__content {
+    padding: $inner-padding;
+  }
+  &__number {
+    font-size: $font-size-small;
+    float: left;
+  }
   
   &__info {
     float: right;
-    padding: 0 1rem;
   }
+
   &__time-icon {
     display: inline;
     position: relative;
