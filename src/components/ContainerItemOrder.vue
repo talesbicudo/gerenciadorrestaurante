@@ -12,6 +12,9 @@
           <p v-if="open"><TimeIcon class="item-order__time-icon"/> {{updateLast | time}}</p>
           <p v-else> <LockIcon class="item-order__time-icon"/> {{closedAt | time}}</p>
         </div>
+        <div v-if="search" class="item-order__search-info">
+          {{searchInfo}}
+        </div>
       </div>
   </div>
 </template>
@@ -22,6 +25,7 @@ import FormatDate from "@/mixins/FormatDate";
 import FormatNumber from "@/mixins/FormatNumber";
 import LockIcon from "vue-ionicons/dist/md-lock";
 import TimeIcon from "vue-ionicons/dist/md-time";
+import SEARCH_TAG from "@/types/SearchTag";
 
 export default {
   mixins: [ FormatPrice, FormatDate, FormatNumber],
@@ -52,34 +56,62 @@ export default {
     number: {
       type: Number,
       default: 0
+    },
+
+    searchTags: {
+      type: Array,
+      default: () => [{type: SEARCH_TAG.TABLE_NUMBER, value: '0'}]
+    },
+
+    search: {
+      type: String,
+      default: ""
     }
 
   },
 
-  data: function() {
+  data() {
     return {
       tableName: "mesa"
     };
   },
   computed: {
-    classHeader: function() {
+    classHeader() {
       const base = "item-order__header";
       return `${base} ${this.open ? base + "--open" : ""}`;
     },
-    updateLast: function() {
+    updateLast() {
       return this.updates[this.updates.length - 1].date;
+    },
+    searchInfo() {
+      return this.searchTags.reduce((info, searchTag) => 
+        `${info}${String(searchTag.value).includes(this.search) ?
+         `\n${this.mapTagType(searchTag.type)}: ${searchTag.value}` :
+          '' 
+         }`, '')
     }
   },
 
   methods: {
-    toOrderPage: function() {}
+    mapTagType(tagType){
+      switch(tagType){
+        case SEARCH_TAG.ITEM:
+          return 'Item consumido'
+        case SEARCH_TAG.PROVIDER:
+          return 'Pagante' 
+        case SEARCH_TAG.TABLE_NUMBER:
+          return 'Mesa'
+        default:
+          return null
+      }
+    }
   }
 };
 </script> 
 
 <style lang="scss">
 .item-order {
-  $inner-padding: 0 .5rem;
+  $inner-padding: 0 0.5rem;
   box-shadow: 0.2rem 0.2rem 0.3rem rgba($color-black, 0.2);
   border-radius: 3px;
   overflow: hidden;
@@ -107,7 +139,7 @@ export default {
     font-size: $font-size-small;
     float: left;
   }
-  
+
   &__info {
     float: right;
   }
