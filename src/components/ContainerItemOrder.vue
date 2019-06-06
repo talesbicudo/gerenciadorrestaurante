@@ -13,6 +13,7 @@
           <p v-else> <LockIcon class="item-order__time-icon"/> {{closedAt | time}}</p>
         </div>
         <div v-if="search" class="item-order__search-info">
+          <SearchIcon class="item-order__search-icon"/>
           {{searchInfo}}
         </div>
       </div>
@@ -25,11 +26,12 @@ import FormatDate from "@/mixins/FormatDate";
 import FormatNumber from "@/mixins/FormatNumber";
 import LockIcon from "vue-ionicons/dist/md-lock";
 import TimeIcon from "vue-ionicons/dist/md-time";
+import SearchIcon from "vue-ionicons/dist/md-search";
 import SEARCH_TAG from "@/types/SearchTag";
 
 export default {
   mixins: [ FormatPrice, FormatDate, FormatNumber],
-  components: { LockIcon, TimeIcon },
+  components: { LockIcon, TimeIcon, SearchIcon },
   props: {
     table: {
       type: Object,
@@ -96,7 +98,7 @@ export default {
     mapTagType(tagType){
       switch(tagType){
         case SEARCH_TAG.ITEM:
-          return 'Item consumido'
+          return 'Consumo'
         case SEARCH_TAG.PROVIDER:
           return 'Pagante' 
         case SEARCH_TAG.TABLE_NUMBER:
@@ -133,6 +135,7 @@ export default {
     }
   }
   &__content {
+    @include clearfix;
     padding: $inner-padding;
   }
   &__number {
@@ -144,6 +147,16 @@ export default {
     float: right;
   }
 
+  &__search-info {
+    clear: both;
+    font-size: $font-size-tiny;
+  }
+
+  &__search-icon {
+    display: inline;
+  }
+
+ 
   &__time-icon {
     display: inline;
     position: relative;

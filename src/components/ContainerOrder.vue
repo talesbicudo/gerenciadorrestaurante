@@ -78,14 +78,14 @@ export default {
     flex-wrap: wrap;
     justify-content: flex-start;
     list-style: none;
-    align-items: center;
+    align-items: top;
     width: 100%;
     height: 100%;
   }
   &__list-item {
     width: 50%;
     height: auto;
-    padding: 1rem 4rem;
+    padding: 1rem 2rem;
     min-width: 10rem;
     max-width: 20rem;
     @include respond(tab-port) {
