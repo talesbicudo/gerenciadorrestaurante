@@ -1,9 +1,10 @@
 <template>
     <div class="order-container">
+        <TheInputSearch/> 
         <div class="order-container__loader" v-if="$apollo.loading"/>
         <ul v-else class="order-container__list">
            <li v-for="order in byUpdateOrder" 
-           class="order-container__row" :key="order.id">
+           class="order-container__list-item" :key="order.id">
                <ContainerItemOrder v-bind="order"/>
            </li> 
         </ul>
@@ -13,12 +14,14 @@
 import gql from "graphql-tag";
 import _ from "lodash";
 import ContainerItemOrder from "./ContainerItemOrder";
+import TheInputSearch from '@/components/TheInputSearch';
 import { OrderFragment } from "@/client/queries";
 import { OrderLocalFragment } from "@/client/queries";
 
 export default {
   components: {
-    ContainerItemOrder
+    ContainerItemOrder,
+    TheInputSearch
   },
   props: {
     dayDate: {
@@ -65,9 +68,12 @@ export default {
     width: 100%;
     height: 100%;
   }
-  &__row {
+  &__list-item {
     width: 50%;
     height: auto;
+    padding: 1rem 4rem;
+    min-width: 10rem;
+    max-width: 20rem;
     @include respond(tab-port) {
       width: 33.3333%;
     }
