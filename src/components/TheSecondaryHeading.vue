@@ -12,8 +12,9 @@ export default {
 
 <style lang="scss">
    .secondary-heading {
-       font-size: 7.2rem;
+       font-size: $font-size-huge;
        color: $color-black;
+       font-weight: 100;
    } 
 </style>
 
