@@ -1,4 +1,6 @@
 import UPDATE from '@/types/update';
+import SEARCH_TAG from '@/types/SearchTag';
+import _ from 'lodash';
 
 export default {
     Order: {
@@ -14,6 +16,13 @@ export default {
             return order.consumedItems.reduce((total, consumed) =>
                 total + consumed.quantity * consumed.itemType.value
                 , 0)
+        },
+        searchTags: function(order){
+            return {
+                [SEARCH_TAG.ITEMS]: _.map(order.consumedItems, 'itemType.name'),
+                [SEARCH_TAG.PROVIDERS]: _.map(order.payments, 'provider'),
+                [SEARCH_TAG.TABLE_NUMBER]: [order.table.number],
+            }
         }
     }
 }
