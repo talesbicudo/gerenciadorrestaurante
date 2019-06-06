@@ -6,6 +6,7 @@ export const OrderFragment = gql`
             table {
                 number
             }
+            number
             createdAt
             closedAt
             consumedItems {

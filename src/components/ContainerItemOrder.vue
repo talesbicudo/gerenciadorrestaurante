@@ -44,7 +44,13 @@ export default {
     updates: {
       type: Array,
       default: () => []
+    },
+
+    number: {
+      type: Number,
+      default: 0
     }
+
   },
 
   data: function() {

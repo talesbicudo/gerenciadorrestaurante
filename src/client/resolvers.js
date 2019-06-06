@@ -76,6 +76,7 @@ const findOrder = id => orders.find(order => order.id === id);
 
 
 let orders = [...Array(ORDERS_QUANTITY).keys()].map(i => createOrder(++i));
+orders = _.sortBy(orders, 'createdAt').map((order, i) => ({...order, number: i}));
 let days = ([day(OPEN_DATE, orders)]);
 
 export default {
@@ -106,5 +107,5 @@ export default {
             })
             return order;
         }
-    })
+    }),
 }

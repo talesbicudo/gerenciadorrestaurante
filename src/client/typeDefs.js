@@ -11,6 +11,7 @@ export default gql`
         closedAt: DateTime
         table: Table!
         id: String!
+        number: Int!
     }
 
     type Day {
