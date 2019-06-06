@@ -1,11 +1,11 @@
 <template>
     <div class="order-container">
-        <TheInputSearch/> 
+        <TheInputSearch v-model="search"/> 
         <div class="order-container__loader" v-if="$apollo.loading"/>
         <ul v-else class="order-container__list">
-           <li v-for="order in byUpdateOrder" 
+           <li v-for="order in selectedOrders" 
            class="order-container__list-item" :key="order.id">
-               <ContainerItemOrder v-bind="order"/>
+               <ContainerItemOrder :search="search" v-bind="order"/>
            </li> 
         </ul>
     </div>    
@@ -14,7 +14,7 @@
 import gql from "graphql-tag";
 import _ from "lodash";
 import ContainerItemOrder from "./ContainerItemOrder";
-import TheInputSearch from '@/components/TheInputSearch';
+import TheInputSearch from "@/components/TheInputSearch";
 import { OrderFragment } from "@/client/queries";
 import { OrderLocalFragment } from "@/client/queries";
 
@@ -28,6 +28,11 @@ export default {
       type: Date,
       default: () => new Date()
     }
+  },
+  data: function() {
+    return {
+      search: ""
+    };
   },
   apollo: {
     orders: {
@@ -48,10 +53,19 @@ export default {
   },
   computed: {
     byUpdateOrder() {
-      return [...this.orders].sort(
-        (orderA, orderB) =>
-          _.last(orderA.updates).date - _.last(orderB.updates).date
-      ).reverse();
+      return [...this.orders]
+        .sort(
+          (orderA, orderB) =>
+            _.last(orderA.updates).date - _.last(orderB.updates).date
+        )
+        .reverse();
+    },
+    selectedOrders() {
+      if (!this.search) return this.byUpdateOrder;
+      return this.byUpdateOrder.filter(order => {
+        const reg = new RegExp(this.search);
+        return order.searchTags.some(({ value }) => reg.test(value));
+      });
     }
   }
 };

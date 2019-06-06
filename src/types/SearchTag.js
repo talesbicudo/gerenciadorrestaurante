@@ -1,6 +1,5 @@
 export default {
-    ITEMS: "items",
-    PROVIDERS: "providers",
+    ITEM: "item",
+    PROVIDER: "provider",
     TABLE_NUMBER: "tableNumber",
-    ORDER_NUMBER: "orderNumber"
 }
