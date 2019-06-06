@@ -60,13 +60,14 @@ const createOrder = (numberTable) => {
         const valueToPay = totalItemPrice - _.sumBy(payments, 'value');
         payments.push(payment(valueToPay, lastItemDate));
     }
+    const lastPaymentDate = payments.length ? _.maxBy(payments, 'createdAt').createdAt : lastItemDate;
     return {
         consumedItems: items,
         payments,
         open,
         table: table(numberTable),
         createdAt,
-        closedAt: !open ? faker.date.between(_.maxBy(payments, 'createdAt').createdAt, CLOSE_DATE) : null,
+        closedAt: !open ? faker.date.between(lastPaymentDate, CLOSE_DATE) : null,
         id: faker.random.uuid()
     }
 }
