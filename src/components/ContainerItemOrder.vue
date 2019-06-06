@@ -70,28 +70,26 @@ export default {
 
 <style lang="scss">
 .item-order {
-  display: inline-block;
-  text-align: center;
   box-shadow: 0.2rem 0.2rem 0.3rem rgba($color-black, 0.2);
   border-radius: 3px;
-  max-width: 22rem;
-  min-width: 18rem;
   overflow: hidden;
-  text-align: center;
+  background-color: $color-white;
   &__table-name {
     text-transform: uppercase;
   }
   &__table-number {
     font-size: $font-size-extra-huge;
+    text-shadow: 0 0.1rem 0.3rem rgba($color-black, 0.3);
   }
   &__header {
     color: $color-white;
-    text-shadow: 0 -0.1rem 0.3rem rgba($color-black, 0.3);
+    padding: 0 1rem;
     @include hoverableBg($color-red);
     &--open {
       @include hoverableBg($color-green);
     }
   }
+  
   &__info {
     float: right;
     padding: 0 1rem;
