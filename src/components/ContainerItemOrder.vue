@@ -15,7 +15,7 @@
         <div v-if="search" class="item-order__search-info">
           <SearchIcon class="item-order__search-icon"/>
           <p v-for="st in searchInfo" :key="st.value" class="item-order__search-info-item">
-            {{st.type | mapTagType}}: {{st.value}}
+            {{st.type | mapTagType}}: {{st.originalValue}}
           </p>
         </div>
       </div>
@@ -32,7 +32,7 @@ import SearchIcon from "vue-ionicons/dist/md-search";
 import SEARCH_TAG from "@/types/SearchTag";
 
 export default {
-  mixins: [ FormatPrice, FormatDate, FormatNumber],
+  mixins: [FormatPrice, FormatDate, FormatNumber],
   components: { LockIcon, TimeIcon, SearchIcon },
   props: {
     table: {
@@ -64,14 +64,13 @@ export default {
 
     searchTags: {
       type: Array,
-      default: () => [{type: SEARCH_TAG.TABLE_NUMBER, value: '0'}]
+      default: () => []
     },
 
     search: {
       type: String,
       default: ""
     }
-
   },
 
   data() {
@@ -79,6 +78,7 @@ export default {
       tableName: "mesa"
     };
   },
+
   computed: {
     classHeader() {
       const base = "item-order__header";
@@ -88,17 +88,16 @@ export default {
       return this.updates[this.updates.length - 1].date;
     },
     searchInfo() {
-      return this.searchTags.filter(st =>
-       String(st.value).toLowerCase().includes(this.search))
+      return this.searchTags.filter(st => st.value.includes(this.search));
     }
   },
 
   filters: {
-    mapTagType(tagType){
-     return {
-       [SEARCH_TAG.ITEM]: "Consumo",
-       [SEARCH_TAG.PROVIDER]: "Pagante"
-     }[tagType]
+    mapTagType(tagType) {
+      return {
+        [SEARCH_TAG.ITEM]: "Consumo",
+        [SEARCH_TAG.PROVIDER]: "Pagante"
+      }[tagType];
     }
   }
 };
@@ -149,7 +148,6 @@ export default {
     display: inline;
   }
 
- 
   &__time-icon {
     display: inline;
     position: relative;

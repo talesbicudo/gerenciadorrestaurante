@@ -22,10 +22,12 @@ export default {
                 ...order.consumedItems.map(item => ({
                     value:
                         toLowerCase(item.itemType.name),
+                    originalValue: item.itemType.name,
                     type: SEARCH_TAG.ITEM
                 })),
                 ...order.payments.map(payment => ({
                     value: toLowerCase(payment.provider),
+                    originalValue: payment.provider,
                     type: SEARCH_TAG.PROVIDER
                 }))
             ]

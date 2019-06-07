@@ -13,7 +13,7 @@
         <ul v-else class="order-container__list">
            <li v-for="order in selectedOrders" 
            class="order-container__list-item" :key="order.id">
-               <ContainerItemOrder :search="search" v-bind="order"/>
+               <ContainerItemOrder :search="lowerCaseSearch" v-bind="order"/>
            </li> 
         </ul>
     </div>    
@@ -69,12 +69,15 @@ export default {
     lastNumberTable() {
       return this.orders ? _.maxBy(this.orders, 'table.number').table.number : 0;
     },
+    lowerCaseSearch(){
+      return String(this.search).toLowerCase();
+    },
     selectedOrders() {
       if (!this.search) return this.byUpdateOrder;
       return this.byUpdateOrder.filter(order => {
-        const reg = new RegExp(String(this.search).toLowerCase());
+        const reg = new RegExp(this.lowerCaseSearch);
         return order.searchTags.some(({ value }) =>
-          reg.test(String(value).toLowerCase())
+          reg.test(value)
         );
       });
     }
