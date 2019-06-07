@@ -116,7 +116,7 @@ export default {
   &__header {
     color: $color-white;
     padding: $inner-padding;
-    @include hoverableBg($color-red);
+    @include hoverableBg($color-blue);
     &--open {
       @include hoverableBg($color-green);
     }
