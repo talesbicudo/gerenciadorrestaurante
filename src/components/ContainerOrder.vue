@@ -1,6 +1,14 @@
 <template>
     <div class="order-container">
-        <TheInputSearch v-model="search"/> 
+        <div class="order-container__search-inputs">
+          <input type="number"
+            class="order-container__table-search"
+            min="0"
+            :max="lastNumberTable"
+            step="1"
+           >
+          <input type="search" class="order-container__tag-search" placeholder="procurar" v-model="search"> 
+        </div>
         <div class="order-container__loader" v-if="$apollo.loading"/>
         <ul v-else class="order-container__list">
            <li v-for="order in selectedOrders" 
@@ -14,14 +22,12 @@
 import gql from "graphql-tag";
 import _ from "lodash";
 import ContainerItemOrder from "./ContainerItemOrder";
-import TheInputSearch from "@/components/TheInputSearch";
 import { OrderFragment } from "@/client/queries";
 import { OrderLocalFragment } from "@/client/queries";
 
 export default {
   components: {
-    ContainerItemOrder,
-    TheInputSearch
+    ContainerItemOrder
   },
   props: {
     dayDate: {
@@ -60,11 +66,16 @@ export default {
         )
         .reverse();
     },
+    lastNumberTable() {
+      return this.orders ? _.maxBy(this.orders, 'table.number').table.number : 0;
+    },
     selectedOrders() {
       if (!this.search) return this.byUpdateOrder;
       return this.byUpdateOrder.filter(order => {
         const reg = new RegExp(String(this.search).toLowerCase());
-        return order.searchTags.some(({ value }) => reg.test(String(value).toLowerCase()));
+        return order.searchTags.some(({ value }) =>
+          reg.test(String(value).toLowerCase())
+        );
       });
     }
   }
