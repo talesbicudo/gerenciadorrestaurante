@@ -91,7 +91,7 @@ export default {
     mapTagType(tagType) {
       return {
         [SEARCH_TAG.ITEM]: "Consumo",
-        [SEARCH_TAG.PROVIDER]: "Pagante"
+        [SEARCH_TAG.PROVIDER]: "Cliente"
       }[tagType];
     }
   }
