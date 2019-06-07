@@ -1,7 +1,7 @@
 <template>
   <div v-if="!$apollo.loading" class="item-order">
         <div :class="classHeader">
-          <span class="item-order__table-name">{{tableName}} </span>
+          <span class="item-order__table-name"> mesa </span>
           <span class="item-order__table-number">{{table.number | twoDigits}}</span>
         </div>
       <div class="item-order__content">
@@ -71,12 +71,6 @@ export default {
       type: String,
       default: ""
     }
-  },
-
-  data() {
-    return {
-      tableName: "mesa"
-    };
   },
 
   computed: {
