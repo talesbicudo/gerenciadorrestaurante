@@ -15,7 +15,7 @@
         <div v-if="search" class="item-order__search-info">
           <SearchIcon class="item-order__search-icon"/>
           <p v-for="st in searchInfo" :key="st.value" class="item-order__search-info-item">
-            {{st.type | mapTagType}}: {{st.originalValue}}
+            {{st.type | mapTagType}}: <MarkedText :reg="search" :value="st.value"/>
           </p>
         </div>
       </div>
@@ -30,10 +30,11 @@ import LockIcon from "vue-ionicons/dist/md-lock";
 import TimeIcon from "vue-ionicons/dist/md-time";
 import SearchIcon from "vue-ionicons/dist/md-search";
 import SEARCH_TAG from "@/types/SearchTag";
+import MarkedText from '@/components/MarkedText';
 
 export default {
   mixins: [FormatPrice, FormatDate, FormatNumber],
-  components: { LockIcon, TimeIcon, SearchIcon },
+  components: { MarkedText, LockIcon, TimeIcon, SearchIcon },
   props: {
     table: {
       type: Object,
@@ -68,8 +69,8 @@ export default {
     },
 
     search: {
-      type: String,
-      default: ""
+      type: RegExp,
+      default: () => null
     }
   },
 
@@ -82,7 +83,7 @@ export default {
       return this.updates[this.updates.length - 1].date;
     },
     searchInfo() {
-      return this.searchTags.filter(st => st.value.includes(this.search));
+      return this.searchTags.filter(st => this.search.test(st.value));
     }
   },
 

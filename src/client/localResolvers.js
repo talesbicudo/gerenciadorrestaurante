@@ -17,17 +17,13 @@ export default {
                 , 0)
         },
         searchTags: function (order) {
-            const toLowerCase = v => String(v).toLowerCase();
             return [
                 ...order.consumedItems.map(item => ({
-                    value:
-                        toLowerCase(item.itemType.name),
-                    originalValue: item.itemType.name,
+                    value: item.itemType.name,
                     type: SEARCH_TAG.ITEM
                 })),
                 ...order.payments.map(payment => ({
-                    value: toLowerCase(payment.provider),
-                    originalValue: payment.provider,
+                    value: payment.provider,
                     type: SEARCH_TAG.PROVIDER
                 }))
             ]
