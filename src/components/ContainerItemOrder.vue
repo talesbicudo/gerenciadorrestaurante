@@ -95,16 +95,11 @@ export default {
 
   filters: {
     mapTagType(tagType){
-      switch(tagType){
-        case SEARCH_TAG.ITEM:
-          return 'Consumo'
-        case SEARCH_TAG.PROVIDER:
-          return 'Pagante' 
-        case SEARCH_TAG.TABLE_NUMBER:
-          return 'Mesa'
-        default:
-          return null
-      }
+     return {
+       [SEARCH_TAG.ITEM]: "Consumo",
+       [SEARCH_TAG.PROVIDER]: "Pagante",
+       [SEARCH_TAG.TABLE_NUMBER]: "Mesa"
+     }[tagType]
     }
   }
 };
