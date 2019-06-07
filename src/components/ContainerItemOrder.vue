@@ -97,8 +97,7 @@ export default {
     mapTagType(tagType){
      return {
        [SEARCH_TAG.ITEM]: "Consumo",
-       [SEARCH_TAG.PROVIDER]: "Pagante",
-       [SEARCH_TAG.TABLE_NUMBER]: "Mesa"
+       [SEARCH_TAG.PROVIDER]: "Pagante"
      }[tagType]
     }
   }

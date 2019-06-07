@@ -19,8 +19,7 @@ export default {
         searchTags: function (order) {
             return [
                 ...order.consumedItems.map(item => ({value: item.itemType.name, type: SEARCH_TAG.ITEM})),
-                ...order.payments.map(payment => ({value: payment.provider, type: SEARCH_TAG.PROVIDER})),
-                {value: order.table.number, type: SEARCH_TAG.TABLE_NUMBER}
+                ...order.payments.map(payment => ({value: payment.provider, type: SEARCH_TAG.PROVIDER}))
             ]
         }
     }
