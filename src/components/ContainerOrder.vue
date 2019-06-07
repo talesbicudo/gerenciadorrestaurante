@@ -88,26 +88,7 @@ export default {
 <style lang="scss">
 .order-container {
   &__list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    list-style: none;
-    align-items: top;
-    width: 100%;
-    height: 100%;
-  }
-  &__list-item {
-    width: 50%;
-    height: auto;
-    padding: 1rem 2rem;
-    min-width: 10rem;
-    max-width: 20rem;
-    @include respond(tab-port) {
-      width: 33.3333%;
-    }
-    @include respond(desktop) {
-      width: 25%;
-    }
+   @include flexGrid
   }
 }
 </style>
