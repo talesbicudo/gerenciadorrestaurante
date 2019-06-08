@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!$apollo.queries.order.loading" class="item-order">
+  <div v-if="!$apollo.queries.order.loading" @click="setSelectedOrder" class="item-order">
         <div :class="classHeader">
           <span class="item-order__table-name"> mesa </span>
           <span class="item-order__table-number">{{order.table.number | twoDigits}}</span>
@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import gql from 'graphql-tag';
+import gql from "graphql-tag";
 import FormatPrice from "@/mixins/FormatPrice";
 import FormatDate from "@/mixins/FormatDate";
 import FormatNumber from "@/mixins/FormatNumber";
@@ -31,7 +31,7 @@ import LockIcon from "vue-ionicons/dist/md-lock";
 import TimeIcon from "vue-ionicons/dist/md-time";
 import SearchIcon from "vue-ionicons/dist/md-search";
 import SEARCH_TAG from "@/types/SearchTag";
-import MarkedText from '@/components/MarkedText';
+import MarkedText from "@/components/MarkedText";
 
 export default {
   mixins: [FormatPrice, FormatDate, FormatNumber],
@@ -50,7 +50,7 @@ export default {
   apollo: {
     order: {
       query: gql`
-        query ($id: String!){
+        query($id: String!) {
           order(id: $id) @client {
             table {
               number
@@ -64,7 +64,9 @@ export default {
           }
         }
       `,
-      variables() {return {id: this.id}}
+      variables() {
+        return { id: this.id };
+      }
     }
   },
   computed: {
@@ -77,6 +79,17 @@ export default {
     },
     searchInfo() {
       return this.order.searchTags.filter(st => this.search.test(st.value));
+    }
+  },
+
+  methods: {
+    setSelectedOrder() {
+      console.log(this.id);
+      if (this.$store.state.orders.selectedId === this.id) {
+        this.$store.commit("orderUnSelect");
+      } else {
+        this.$store.commit("orderSelect", { selectedId: this.id });
+      }
     }
   },
 
