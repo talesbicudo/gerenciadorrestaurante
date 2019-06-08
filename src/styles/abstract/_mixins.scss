@@ -36,7 +36,6 @@
     &-item {
         width: 50%;
         height: auto;
-        padding: 1rem 2rem;
         min-width: 10rem;
         max-width: 20rem;
         @include respond(tab-port) {
