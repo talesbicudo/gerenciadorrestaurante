@@ -42,11 +42,13 @@ export default {
     width: 100%;
     font-size: $font-size-big;
     background-color: rgba($color-white, 0.5);
-    border: none;
-    border-bottom: 3px solid transparent;
+    border:none;
+    padding: .2rem .4rem;
+    border-radius: 3px;
     &:focus {
       outline: none;
       box-shadow: 0 1rem 2rem rgba($color-black, 0.1);
+      border: none;
       border-bottom: 1px solid $color-blue;
     }
   }

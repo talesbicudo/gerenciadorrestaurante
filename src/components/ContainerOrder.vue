@@ -1,22 +1,22 @@
 <template>
     <div class="order-container">
-        <div class="order-container__search-inputs">
+        <div class="order-container__search-container">
           <Input 
             class="order-container__search order-container__search--number"
             id="number"
             placeholder="Mesa"
             :inputProps="numberSubProps"
-            v-model="number"
+            v-model="numberSearch"
            />
           <Input 
             class="order-container__search order-container__search--tag"
-            placeholder="Marcações"
+            placeholder="Cliente/Consumo"
             :inputProps="{type: 'search'}"
             v-model="search"/> 
         </div>
         <div class="order-container__loader" v-if="$apollo.loading"/>
         <ul v-else class="order-container__list">
-           <li v-for="order in selectedOrders" 
+           <li v-for="order in validatedOrders" 
            class="order-container__list-item" :key="order.id">
                <ContainerItemOrder :search="regExpSearch" :id="order.id"/>
            </li> 
@@ -45,7 +45,7 @@ export default {
   data: function() {
     return {
       search: "",
-      number: ""
+      numberSearch: ""
     };
   },
   apollo: {
@@ -66,14 +66,6 @@ export default {
     }
   },
   computed: {
-    byUpdateOrder() {
-      return [...this.orders]
-        .sort(
-          (orderA, orderB) =>
-            _.last(orderA.updates).date - _.last(orderB.updates).date
-        )
-        .reverse();
-    },
     lastNumberTable() {
       return this.orders
         ? _.maxBy(this.orders, "table.number").table.number
@@ -82,13 +74,29 @@ export default {
     regExpSearch() {
       return this.search ? new RegExp(String(this.search), "i") : null;
     },
-    selectedOrders() {
-      if (!this.search) return this.byUpdateOrder;
-      return this.byUpdateOrder.filter(order => {
-        return order.searchTags.some(({ value }) =>
-          this.regExpSearch.test(value)
-        );
-      });
+    searchOrders() {
+      if (!this.search) return this.orders;
+      return this.orders.filter(order =>
+        order.searchTags.some(({ value }) => this.regExpSearch.test(value))
+      );
+    },
+    numberTableOrders() {
+      if (!this.numberSearch) return this.orders;
+      return this.orders.filter(order =>
+        (new RegExp(this.numberSearch)).test(String(order.table.number))
+      );
+    },
+    filterOrders() {
+      return [this.searchOrders, this.numberTableOrders];
+    },
+    validatedOrders() {
+      const filteredOrders = _.intersectionBy(...this.filterOrders, 'id');
+      return [...filteredOrders]
+        .sort(
+          (orderA, orderB) =>
+            _.last(orderA.updates).date - _.last(orderB.updates).date
+        )
+        .reverse();
     },
     numberSubProps() {
       return {
@@ -104,22 +112,31 @@ export default {
 
 <style lang="scss">
 .order-container {
+  $horizontal-padding: 2rem;
   $margin-right: 2rem;
+  margin: auto; 
   &__list {
     @include flexGrid;
+    justify-content: center;
+    &-item {
+        padding: 1rem $horizontal-padding;
+    }
   }
 
+  &__search-container {
+    padding: 0 $horizontal-padding;
+  }
   &__search {
-    overflow: hidden;
+    padding: 0 $horizontal-padding;
     display: inline-block;
     &:not(:last-of-type) {
       margin-right: $margin-right;
     }
     &--number {
-      width: calc(15% - #{$margin-right});
+      width: 30%;
     }
     &--tag {
-      width: calc(50% - #{$margin-right});
+      width: calc(70% - #{$margin-right});
     }
   }
 }
