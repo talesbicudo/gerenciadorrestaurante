@@ -1,5 +1,6 @@
 <template>
     <nav class="nav">
+        <SecondaryHeading>Selections</SecondaryHeading>
         <div class="nav__selectors">
             <NavPage>Right</NavPage>
             <NavPage left>Left</NavPage>
