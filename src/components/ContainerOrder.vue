@@ -13,7 +13,7 @@
         <ul v-else class="order-container__list">
            <li v-for="order in selectedOrders" 
            class="order-container__list-item" :key="order.id">
-               <ContainerItemOrder :search="regExpSearch" v-bind="order"/>
+               <ContainerItemOrder :search="regExpSearch" :id="order.id"/>
            </li> 
         </ul>
     </div>    

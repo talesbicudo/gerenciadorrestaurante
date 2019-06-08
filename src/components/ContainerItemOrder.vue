@@ -2,15 +2,15 @@
   <div v-if="!$apollo.loading" class="item-order">
         <div :class="classHeader">
           <span class="item-order__table-name"> mesa </span>
-          <span class="item-order__table-number">{{table.number | twoDigits}}</span>
+          <span class="item-order__table-number">{{order.table.number | twoDigits}}</span>
         </div>
       <div class="item-order__content">
         <div class="item-order__number">
-          <p>N° {{number}}</p>
+          <p>N° {{order.number}}</p>
         </div>
         <div class="item-order__info">
-          <p v-if="open"><TimeIcon class="item-order__time-icon"/> {{updateLast | time}}</p>
-          <p v-else> <LockIcon class="item-order__time-icon"/> {{closedAt | time}}</p>
+          <p v-if="order.open"><TimeIcon class="item-order__time-icon"/> {{updateLast | time}}</p>
+          <p v-else> <LockIcon class="item-order__time-icon"/> {{order.closedAt | time}}</p>
         </div>
         <div v-if="search" class="item-order__search-info">
           <SearchIcon class="item-order__search-icon"/>
@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import gql from 'graphql-tag';
 import FormatPrice from "@/mixins/FormatPrice";
 import FormatDate from "@/mixins/FormatDate";
 import FormatNumber from "@/mixins/FormatNumber";
@@ -36,36 +37,9 @@ export default {
   mixins: [FormatPrice, FormatDate, FormatNumber],
   components: { MarkedText, LockIcon, TimeIcon, SearchIcon },
   props: {
-    table: {
-      type: Object,
-      default: () => ({
-        number: 0
-      })
-    },
-
-    closedAt: {
-      type: Date,
-      default: () => new Date()
-    },
-
-    open: {
-      type: Boolean,
-      default: false
-    },
-
-    updates: {
-      type: Array,
-      default: () => []
-    },
-
-    number: {
-      type: Number,
-      default: 0
-    },
-
-    searchTags: {
-      type: Array,
-      default: () => []
+    id: {
+      type: String,
+      default: "unattached"
     },
 
     search: {
@@ -73,17 +47,36 @@ export default {
       default: () => null
     }
   },
-
+  apollo: {
+    order: {
+      query: gql`
+        query ($id: String!){
+          order(id: $id) @client {
+            table {
+              number
+            }
+            number
+            closedAt
+            open
+            closedAt
+            updates @client
+            searchTags @client
+          }
+        }
+      `,
+      variables() {return {id: this.id}}
+    }
+  },
   computed: {
     classHeader() {
       const base = "item-order__header";
-      return `${base} ${this.open ? base + "--open" : ""}`;
+      return `${base} ${this.order.open ? base + "--open" : ""}`;
     },
     updateLast() {
-      return this.updates[this.updates.length - 1].date;
+      return this.order.updates[this.order.updates.length - 1].date;
     },
     searchInfo() {
-      return this.searchTags.filter(st => this.search.test(st.value));
+      return this.order.searchTags.filter(st => this.search.test(st.value));
     }
   },
 
