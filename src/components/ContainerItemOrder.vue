@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!$apollo.loading" class="item-order">
+  <div v-if="!$apollo.queries.order.loading" class="item-order">
         <div :class="classHeader">
           <span class="item-order__table-name"> mesa </span>
           <span class="item-order__table-number">{{order.table.number | twoDigits}}</span>
