@@ -1,6 +1,5 @@
 <template>
-    <div class="nav-page" :class="navPageDirClass">
-       <slot>To</slot> 
+    <div class="nav-page" :class="navPageDirClass" v-html="arrow">
     </div>
 </template>
 
@@ -16,6 +15,10 @@ export default {
     navPageDirClass() {
       if (this.left) return "nav-page--left";
       return "nav-page--right";
+    },
+    arrow() {
+        if(this.left) return "&larr;"
+        return "&rarr;"
     }
   }
 };
@@ -23,21 +26,21 @@ export default {
 
 <style lang="scss">
 .nav-page {
-  $size: 10rem;
+    $size: 4rem;
   position: absolute;
-  @include hoverableBg($color-grey-dark);
-  width: $size;
-  height: $size;
-  border-radius: 50%;
   top: 50%;
   transition: all .3s;
+  font-size: $font-size-large;
+  background-color: antiquewhite;
+  width: $size;
+  height: $size;
   &--right {
     right: 0;
-    transform: translateX(50%);
+    transform: translateX(-50%);
   }
   &--left {
     left: 0;
-    transform: translateX(-50%);
+    transform: translateX(50%);
   }
 }
 </style>

@@ -1,17 +1,18 @@
 <template>
   <div class="home">
-    <secondary-heading>Pedidos</secondary-heading>
+    <Nav/> 
     <LoaderOrders/>
   </div>
 </template>
 
 <script>
 import LoaderOrders from '@/components/LoaderOrders';
-import SecondaryHeading from '@/components/TheSecondaryHeading';
+import Nav from './Nav';
+
 export default {
   name: 'home',
   components: {
-    LoaderOrders, SecondaryHeading
+    LoaderOrders, Nav
   }
 }
 </script>
