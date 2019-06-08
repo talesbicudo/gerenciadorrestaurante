@@ -1,7 +1,15 @@
 import UPDATE from '@/types/update';
 import SEARCH_TAG from '@/types/SearchTag';
-
+import { OrderFragment } from './queries'
 export default {
+    Query: {
+        order(_, { id }, { cache }) {
+            return cache.readFragment({
+                id,
+                fragment: OrderFragment
+            })
+        }
+    },
     Order: {
         updates: function (order) {
             return [
