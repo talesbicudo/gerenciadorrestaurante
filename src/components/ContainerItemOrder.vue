@@ -84,7 +84,6 @@ export default {
 
   methods: {
     setSelectedOrder() {
-      console.log(this.id);
       if (this.$store.state.orders.selectedId === this.id) {
         this.$store.commit("orderUnSelect");
       } else {
