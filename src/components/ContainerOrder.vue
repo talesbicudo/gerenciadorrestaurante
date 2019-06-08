@@ -1,13 +1,17 @@
 <template>
     <div class="order-container">
         <div class="order-container__search-inputs">
-          <input type="number"
-            class="order-container__table-search"
-            min="0"
-            :max="lastNumberTable"
-            step="1"
-           >
-          <input type="search" class="order-container__tag-search" placeholder="procurar" v-model="search"> 
+          <Input 
+            class="order-container__search order-container__search--number"
+            id="number"
+            placeholder="mesa"
+            :inputProps="numberSubProps"
+           />
+          <Input 
+            class="order-container__search order-container__search--tag"
+            placeholder="procurar"
+            :inputProps="{type: 'search'}"
+            v-model="search"/> 
         </div>
         <div class="order-container__loader" v-if="$apollo.loading"/>
         <ul v-else class="order-container__list">
@@ -22,12 +26,14 @@
 import gql from "graphql-tag";
 import _ from "lodash";
 import ContainerItemOrder from "./ContainerItemOrder";
+import Input from "./TheInput";
 import { OrderFragment } from "@/client/queries";
 import { OrderLocalFragment } from "@/client/queries";
 
 export default {
   components: {
-    ContainerItemOrder
+    ContainerItemOrder,
+    Input
   },
   props: {
     dayDate: {
@@ -67,10 +73,12 @@ export default {
         .reverse();
     },
     lastNumberTable() {
-      return this.orders ? _.maxBy(this.orders, 'table.number').table.number : 0;
+      return this.orders
+        ? _.maxBy(this.orders, "table.number").table.number
+        : 0;
     },
-    regExpSearch(){
-      return this.search ? new RegExp(String(this.search), 'i') : null;
+    regExpSearch() {
+      return this.search ? new RegExp(String(this.search), "i") : null;
     },
     selectedOrders() {
       if (!this.search) return this.byUpdateOrder;
@@ -79,6 +87,14 @@ export default {
           this.regExpSearch.test(value)
         );
       });
+    },
+    numberSubProps() {
+      return {
+        min: "0",
+        type: "number",
+        max: this.lastNumberTable,
+        step: "1"
+      };
     }
   }
 };
@@ -86,8 +102,22 @@ export default {
 
 <style lang="scss">
 .order-container {
+  $margin-right: 1rem;
   &__list {
-   @include flexGrid
+    @include flexGrid;
+  }
+
+  &__search {
+    display: inline-block;
+    &:not(:last-of-type) {
+      margin-right: $margin-right;
+    }
+    &--number {
+      width: calc(15% - #{$margin-right});
+    }
+    &--tag {
+      width: calc(60% - #{$margin-right});
+    }
   }
 }
 </style>
