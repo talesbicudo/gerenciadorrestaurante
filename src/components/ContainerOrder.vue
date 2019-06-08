@@ -4,12 +4,13 @@
           <Input 
             class="order-container__search order-container__search--number"
             id="number"
-            placeholder="mesa"
+            placeholder="Mesa"
             :inputProps="numberSubProps"
+            v-model="number"
            />
           <Input 
             class="order-container__search order-container__search--tag"
-            placeholder="procurar"
+            placeholder="Marcações"
             :inputProps="{type: 'search'}"
             v-model="search"/> 
         </div>
@@ -43,7 +44,8 @@ export default {
   },
   data: function() {
     return {
-      search: ""
+      search: "",
+      number: ""
     };
   },
   apollo: {
@@ -102,12 +104,13 @@ export default {
 
 <style lang="scss">
 .order-container {
-  $margin-right: 1rem;
+  $margin-right: 2rem;
   &__list {
     @include flexGrid;
   }
 
   &__search {
+    overflow: hidden;
     display: inline-block;
     &:not(:last-of-type) {
       margin-right: $margin-right;
@@ -116,7 +119,7 @@ export default {
       width: calc(15% - #{$margin-right});
     }
     &--tag {
-      width: calc(60% - #{$margin-right});
+      width: calc(50% - #{$margin-right});
     }
   }
 }
