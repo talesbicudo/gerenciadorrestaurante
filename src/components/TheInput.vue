@@ -40,10 +40,10 @@ export default {
   &__input {
     border-radius: 2px;
     width: 100%;
+    font-size: $font-size-big;
     background-color: rgba($color-white, 0.5);
     border: none;
     border-bottom: 3px solid transparent;
-    transition: all 0.3s;
     &:focus {
       outline: none;
       box-shadow: 0 1rem 2rem rgba($color-black, 0.1);
@@ -53,6 +53,7 @@ export default {
   &__label {
     width: 100%;
     margin-top: 0.7rem;
+    font-size: $font-size-big;
     display: block;
     transition: all 0.3s;
   }
