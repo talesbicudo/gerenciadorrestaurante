@@ -1,0 +1,4 @@
+export default {
+    ORDER_SELECT: "ORDER_SELECT",
+    ORDER_DETAILS: "ORDER_DETAILS"
+}
