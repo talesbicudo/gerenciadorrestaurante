@@ -1,30 +1,32 @@
 <template>
-    <table class="table-price">
-        <thead class="table-price__head">
-            <tr class="table-price__head-row">
-                <th class="table-price__head-cell" v-for="attrName in attrNames" :key="attrName">{{attrName}}</th>
+    <div class="table-price">
+        <table class="table-price__table">
+            <thead>
+                <tr>
+                    <th v-for="attrName in attrNames" :key="attrName">{{attrName}}</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tr v-for="(row, i) in attrRows" 
+            :key="`row-${name}-${i}`">
+                <td class="table-price__body-cell"
+                v-for="(attr, i) in row"
+                :key="i">
+                    {{attr.value | formatPrice(attr.isPrice)}}
+                </td>
             </tr>
-        </thead>
-        <tbody class="table-price__body">
-        <tr class="table-price__body-row" 
-        v-for="(row, i) in attrRows" 
-        :key="`row-${name}-${i}`">
-            <td class="table-price__body-cell"
-             v-for="(attr, i) in row"
-              :key="i">
-                {{attr.value | formatPrice(attr.isPrice)}}
-            </td>
-        </tr>
-        </tbody>
-        <tfoot class="table-price__foot">
-            <tr class="table-price__foot-row">
-                <td class="table-price__foot-cell-name" 
-                :colspan="totalCellNameLenght">
-                    <slot name="total-cell-name">Total</slot></td>
-                <td class="table-price__foot-cell-value"><slot name="total-cell-value"></slot></td>
-            </tr>
-        </tfoot>
-   </table>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td :colspan="totalCellNameLenght">
+                        <slot name="total-cell-name">Total</slot></td>
+                    <td><slot name="total-cell-value"></slot></td>
+                </tr>
+            </tfoot>
+        </table>
+        <button @click="$emit('add')"><slot name="addButton">Adicionar</slot></button>
+    </div>
+
 </template>
 
 <script>
@@ -78,55 +80,57 @@ export default {
 
 <style lang="scss">
 .table-price {
-  border: 3px solid $color-black;
-  width: 100%;
-  text-align: left;
-  border-collapse: collapse;
-  td,
-  th {
-    border: 1px solid $color-black;
-    padding: 0.5rem 0.4rem;
-  }
-  td {
-    font-size: $font-size-small;
-  }
-  tbody,
-  thead {
-    background: #cfcfcf;
-    background: -moz-linear-gradient(
-      top,
-      #dbdbdb 0%,
-      #d3d3d3 66%,
-      #cfcfcf 100%
-    );
-    background: -webkit-linear-gradient(
-      top,
-      #dbdbdb 0%,
-      #d3d3d3 66%,
-      #cfcfcf 100%
-    );
-    background: linear-gradient(
-      to bottom,
-      #dbdbdb 0%,
-      #d3d3d3 66%,
-      #cfcfcf 100%
-    );
-    border-bottom: 3px solid $color-black;
-  }
-  thead th {
-    font-size: 15px;
-    font-weight: bold;
-    color: #000000;
+  &__table {
+    border: 3px solid $color-black;
+    width: 100%;
     text-align: left;
-  }
-  tfoot {
-    font-size: 14px;
-    font-weight: bold;
-    color: #000000;
-    border-top: 3px solid #000000;
-  }
-  tfoot td {
-    font-size: 14px;
+    border-collapse: collapse;
+    td,
+    th {
+      border: 1px solid $color-black;
+      padding: 0.5rem 0.4rem;
+    }
+    td {
+      font-size: $font-size-small;
+    }
+    tbody,
+    thead {
+      background: #cfcfcf;
+      background: -moz-linear-gradient(
+        top,
+        #dbdbdb 0%,
+        #d3d3d3 66%,
+        #cfcfcf 100%
+      );
+      background: -webkit-linear-gradient(
+        top,
+        #dbdbdb 0%,
+        #d3d3d3 66%,
+        #cfcfcf 100%
+      );
+      background: linear-gradient(
+        to bottom,
+        #dbdbdb 0%,
+        #d3d3d3 66%,
+        #cfcfcf 100%
+      );
+      border-bottom: 3px solid $color-black;
+    }
+    thead th {
+      font-size: 15px;
+      font-weight: bold;
+      color: #000000;
+      text-align: left;
+    }
+    tfoot {
+      font-size: 14px;
+      font-weight: bold;
+      color: #000000;
+      border-top: 3px solid #000000;
+    }
+    tfoot td {
+      font-size: 14px;
+    }
   }
 }
 </style>
