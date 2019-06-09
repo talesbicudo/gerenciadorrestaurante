@@ -44,7 +44,6 @@ export default {
       return this.order.totalPrice - this.order.totalPay;
     },
     tableAttrs() {
-        debugger
       return [
         { name: "Cliente", values: _.map(this.order.payments, "provider") },
         { name: "Preço", values: _.map(this.order.payments, "value"), price: true }
