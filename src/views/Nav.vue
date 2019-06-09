@@ -2,7 +2,7 @@
     <nav class="nav">
         <SecondaryHeading>Selections</SecondaryHeading>
         <div class="nav__selectors">
-            <NavPage @click="toDetails" v-if="isSelectionPage"/>
+            <NavPage @click="toDetails" v-if="isSelectionPage && hasSelectedId"/>
             <NavPage @click="toSelection" v-if="isDetailsPage" left/>
         </div>
     </nav>
@@ -18,6 +18,9 @@ export default {
   computed: {
     currentPage(){
       return this.$store.state.mobilePage.type;
+    },
+    hasSelectedId(){
+      return !!this.$store.state.orders.selectedId;
     },
     isSelectionPage(){
       return this.currentPage === MOBILE.ORDER_SELECT;
