@@ -1,18 +1,17 @@
 <template>
-    <container-order v-if="!$apollo.queries.loadingOrders.loading"/>
-    <div :dayDate="dayDate" v-else />
+    <Pages v-if="!$apollo.queries.loadingOrders.loading" class="pages"/>
 </template>
 
 <script>
-import ContainerOrder from "./ContainerOrder";
 import { OrderFragment } from "@/client/queries";
+import Pages from "@/components/Pages";
 import gql from "graphql-tag";
 export default {
-  components: { ContainerOrder },
+  components: { Pages },
   data: function() {
     return {
-        dayDate: new Date()
-    }
+      dayDate: new Date()
+    };
   },
   apollo: {
     loadingOrders: {
@@ -28,6 +27,7 @@ export default {
         return { dayDate: this.dayDate };
       }
     }
-  }
+  },
+  
 };
 </script>

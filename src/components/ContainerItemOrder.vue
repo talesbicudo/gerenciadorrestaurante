@@ -31,6 +31,7 @@ import LockIcon from "vue-ionicons/dist/md-lock";
 import TimeIcon from "vue-ionicons/dist/md-time";
 import SearchIcon from "vue-ionicons/dist/md-search";
 import SEARCH_TAG from "@/types/SearchTag";
+import MOBILE from '@/types/MobilePage'
 import MarkedText from "@/components/MarkedText";
 
 export default {
@@ -66,7 +67,7 @@ export default {
       `,
       variables() {
         return { id: this.id };
-      }
+      },
     }
   },
   computed: {
@@ -88,6 +89,7 @@ export default {
         this.$store.commit("orderUnSelect");
       } else {
         this.$store.commit("orderSelect", { selectedId: this.id });
+        this.$store.commit("mobilePageChange", {type: MOBILE.ORDER_DETAILS})
       }
     }
   },

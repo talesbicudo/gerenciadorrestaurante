@@ -62,7 +62,7 @@ export default {
       `,
       variables() {
         return { dayDate: this.dayDate };
-      }
+      },
     }
   },
   computed: {
