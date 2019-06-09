@@ -24,6 +24,9 @@ export default {
                 total + consumed.quantity * consumed.itemType.value
                 , 0)
         },
+        totalPay: function(order){
+            return order.payments.reduce((total, {value}) => total + value, 0)
+        },
         searchTags: function (order) {
             return [
                 ...order.consumedItems.map(item => ({

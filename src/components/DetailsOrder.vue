@@ -1,14 +1,16 @@
 <template>
     <div class="details-order">
         <h1 v-if="!!order" class="details-order__heading"> Pedido {{order.number}}</h1>
-        <button> Novo pedido </button>
+        <TablePricePayments v-if="!!storeSelectedId" :id="storeSelectedId"/>
     </div>
 </template>
 
 <script>
 import gql from "graphql-tag";
+import TablePricePayments from "./TablePricePayments";
 
 export default {
+  components: { TablePricePayments },
   apollo: {
     order: {
       query: gql`
