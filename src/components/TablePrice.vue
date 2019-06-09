@@ -6,8 +6,8 @@
             </tr>
         </thead>
         <tbody>
-        <tr v-for="(row, i) in attrRows" :key="`row-${i}`">
-            <td v-for="attr in row" :key="attr.value">{{attr.value | formatPrice(attr.isPrice)}}</td>
+        <tr v-for="(row, i) in attrRows" :key="`row-${name}-${i}`">
+            <td v-for="(attr, i) in row" :key="i">{{attr.value | formatPrice(attr.isPrice)}}</td>
         </tr>
         </tbody>
         <tfoot>
@@ -32,12 +32,18 @@ export default {
         { name: "name", values: ["default", "default2"] },
         { name: "price", values: [1, 2], price: true }
       ],
+      required: true,
       validator(attributes) {
         return (
           _.uniq(_.map(attributes, "values.length")).length === 1 &&
           _.some(attributes, { price: true })
         );
       }
+    },
+    name: {
+        type: String,
+        default: '',
+        required: true
     }
   },
   computed: {

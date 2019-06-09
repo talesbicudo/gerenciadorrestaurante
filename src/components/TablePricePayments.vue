@@ -1,6 +1,6 @@
 <template>
-    <TablePrice v-if="!$apollo.queries.order.loading" :attributes="tableAttrs">
-        <template v-slot:total-cell-name>A pagar</template>
+    <TablePrice name="payments" v-if="!$apollo.queries.order.loading" :attributes="tableAttrs">
+        <template v-slot:total-cell-name>À pagar</template>
         <template v-slot:total-cell-value>{{toPay | formatPrice}}</template>
     </TablePrice>
 </template>
@@ -46,7 +46,7 @@ export default {
     tableAttrs() {
       return [
         { name: "Cliente", values: _.map(this.order.payments, "provider") },
-        { name: "Preço", values: _.map(this.order.payments, "value"), price: true }
+        { name: "Pagamento", values: _.map(this.order.payments, "value"), price: true }
       ];
     }
   }

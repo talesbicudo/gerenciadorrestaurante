@@ -10,6 +10,11 @@ export default {
             })
         }
     },
+    ConsumedItem: {
+        totalPrice(consumedItem){
+            return consumedItem.quantity * consumedItem.itemType.value;
+        }
+    },
     Order: {
         updates: function (order) {
             return [
