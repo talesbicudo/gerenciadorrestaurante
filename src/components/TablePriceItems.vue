@@ -48,7 +48,7 @@ export default {
               {name: "Item", values: _.map(consumedItems, 'itemType.name')},
               {name: "Preço", values: _.map(consumedItems, 'itemType.value'), price: true},
               {name: "Quantidade", values: _.map(consumedItems, 'quantity')},
-              {name: "Total", values: _.map(consumedItems, 'totalPrice'), price: true}
+              {name: "Valor", values: _.map(consumedItems, 'totalPrice'), price: true}
           ]
       }
   }
