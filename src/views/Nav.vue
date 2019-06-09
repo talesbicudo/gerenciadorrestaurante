@@ -1,6 +1,5 @@
 <template>
     <nav class="nav">
-        <SecondaryHeading>Selections</SecondaryHeading>
         <div class="nav__selectors">
             <NavPage @click="toDetails" v-if="isSelectionPage && hasSelectedId"/>
             <NavPage @click="toSelection" v-if="isDetailsPage" left/>
@@ -10,11 +9,10 @@
 
 <script>
 import NavPage from "@/components/NavPage";
-import SecondaryHeading from "@/components/TheSecondaryHeading";
 import MOBILE from "@/types/MobilePage";
 
 export default {
-  components: { NavPage, SecondaryHeading },
+  components: { NavPage },
   computed: {
     currentPage(){
       return this.$store.state.mobilePage.type;
