@@ -37,12 +37,15 @@ export default {
 
 <style lang="scss">
 .pages {
+  overflow-x: hidden;
+  position: relative;
+  @include respond(tab-land) {
+    position: relative;
+    display: flex;
+  }
   &__page {
-    width: 100%;
-    left: 0;
-    position: absolute;
+    float: left;
     transition: transform #{$page-transition-time};
-
     &--details-order {
       transform: translateX(200%);
     }
@@ -55,16 +58,15 @@ export default {
       transform: translateX(0);
     }
 
-    @include respond(tab-land){
-        position: relative;
-        display: inline-block;
-        transform: translateX(0);
-        &--container-order {
-            width: 40%;
-        }
-        &--details-order {
-            width: 60%;
-        }
+    @include respond(tab-land) {
+      position: relative;
+      transform: translateX(0);
+      &--container-order {
+        width: 50%;
+      }
+      &--details-order {
+        flex-grow: 1;
+      }
     }
   }
 }

@@ -1,5 +1,5 @@
 <template>
-    <Pages v-if="!$apollo.queries.loadingOrders.loading" class="pages"/>
+    <Pages v-if="!$apollo.queries.loadingOrders.loading"/>
 </template>
 
 <script>
