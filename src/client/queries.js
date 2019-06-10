@@ -49,8 +49,27 @@ export const TablePayments = gql`
             totalPrice @client
             totalPay @client
           }
+        }`
+
+export const TableItems = gql`
+        query($id: String!) {
+          order(id: $id) {
+            consumedItems {
+                quantity
+                id
+                itemType {
+                    name
+                    value
+                    id
+                }
+                createdAt
+                totalPrice @client
+            }
+            open
+            totalPrice @client
+          }
         }
-      `
+      `  
 export const Container = gql`
         query {
         orders: dayOrders {
@@ -61,3 +80,12 @@ export const Container = gql`
         ${OrderFragment}
         ${OrderLocalFragment}
       `
+export const ItemTypes = gql`
+        query {
+            itemTypes {
+                name
+                value
+                id
+            }
+        }
+`
