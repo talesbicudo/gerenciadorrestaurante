@@ -9,7 +9,6 @@
 </template>
 <script>
 import _ from "lodash";
-import gql from "graphql-tag";
 import {TableItems} from "@/client/queries";
 import FormatPrice from "@/mixins/FormatPrice";
 import StoreSelectedId from '@/mixins/StoreSelectedId'
