@@ -74,7 +74,7 @@ const createOrder = (numberTable) => {
 }
 
 const findOrder = id => orders.find(order => order.id === id);
-
+const findItemType = id => items.find(item => item.id === id);
 
 let orders = [...Array(ORDERS_QUANTITY).keys()].map(i => createOrder(++i));
 orders = _.sortBy(orders, 'createdAt').map((order, i) => ({ ...order, number: i }));
@@ -114,14 +114,19 @@ export default {
                 value
             }
             order.payments.push(newPayment)
-            const payed = _.sum(order.payments, 'value');
-            const toPay = order.consumedItems.reduce((val, item) =>
-                val + item.quantity * item.itemType.value
-                , 0)
-            if (!(toPay - payed)) order.open = false;
-            order.closedAt = new Date();
 
             return newPayment;
+        },
+        addItem(root, {orderId, quantity, itemId}){
+            const order = findOrder(orderId);
+            const consumedItem = {
+                id: faker.random.uuid(),
+                createdAt: new Date(),
+                itemType: findItemType(itemId),
+                quantity
+            }
+            order.consumedItems.push(consumedItem);
+            return consumedItem;
         }
     }),
 }
