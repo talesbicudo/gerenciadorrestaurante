@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    <Popup/>
     <Nav/> 
     <LoaderOrders/>
   </div>
@@ -8,11 +9,12 @@
 <script>
 import LoaderOrders from '@/components/LoaderOrders';
 import Nav from './Nav';
+import Popup from '@/components/Popup';
 
 export default {
   name: 'home',
   components: {
-    LoaderOrders, Nav
+    LoaderOrders, Nav, Popup
   }
 }
 </script>

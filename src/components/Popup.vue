@@ -1,22 +1,35 @@
 <template>
-    <div class="popup" :class="activeClass">
+    <div @click.self="close" class="popup" :class="activeClass">
         <div class="popup__content">
-           <slot>Content</slot> 
+           <component v-if="selectedChild" :is="selectedChild"/>
         </div>
     </div>    
 </template>
 
 <script>
+import POPUP from "@/types/Popup";
+import FormAddPayment from "./FormAddPayment";
+
+const componentByType = {
+  [POPUP.PAYMENT_ADD]: FormAddPayment
+};
+
 export default {
-  props: {
-    active: {
-      type: Boolean,
-      default: false
+  components: { FormAddPayment },
+  computed: {
+    type() {
+      return this.$store.state.popup.type;
+    },
+    activeClass() {
+      return this.type ? "popup--active" : "";
+    },
+    selectedChild() {
+      return this.type ? componentByType[this.type] : null;
     }
   },
-  computed: {
-    activeClass() {
-      return this.active ? "popup--active" : "";
+  methods: {
+    close() {
+      this.$store.commit("popupClose");
     }
   }
 };
@@ -37,16 +50,22 @@ export default {
 
   &__content {
     @include absCenter;
-
-    width: 75%;
-    background-color: $color-white;
+    width: 95%;
+    height: 80vh;
+    background-color: $color-grey-light;
     box-shadow: 0 2rem 4rem rgba($color-black, 0.2);
     border-radius: 3px;
     display: table;
     overflow: hidden;
     opacity: 0;
     transform: translate(-50%, -50%) scale(0.25);
-    transition: all 0.5s 0.2s;
+    transition: all 0.3s 0.1s;
+    padding: 1rem 2rem;
+    @include respond(tab-land) {
+      width: 60%;
+      height: 60vh;
+      padding: 2rem 4rem;
+    }
   }
 
   @supports (-webkit-backdrop-filter: blur(10px)) or (backdrop-filter: blur(10px)) {
@@ -64,6 +83,5 @@ export default {
     opacity: 1;
     transform: translate(-50%, -50%) scale(1);
   }
-
 }
 </style>

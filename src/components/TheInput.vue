@@ -6,6 +6,7 @@
         :placeholder="placeholder" 
         v-bind="inputProps"
         @input="$emit('input', $event.target.value)" 
+        autofocus
         >
         <label
         class="input__label"
@@ -41,8 +42,8 @@ export default {
     border-radius: 2px;
     width: 100%;
     font-size: $font-size-big;
-    background-color: rgba($color-white, 0.5);
-    border:none;
+    background-color: rgba($color-white, 0.9);
+    border: solid $color-grey-dark 1px;
     padding: .2rem .4rem;
     border-radius: 3px;
     &:focus {
