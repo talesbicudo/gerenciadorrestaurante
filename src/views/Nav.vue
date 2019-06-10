@@ -1,6 +1,5 @@
 <template>
     <nav class="nav">
-        <h1>Restaurante</h1>
         <div class="nav__selectors">
             <NavPage @click="toDetails" v-if="isSelectionPage && hasSelectedId"/>
             <NavPage @click="toSelection" v-if="isDetailsPage" left/>
@@ -44,11 +43,14 @@ export default {
   h1 {
     text-align: center;
   }
-  position: relative;
+  position: fixed;
+  top: 50%;
   width: 100%;
   height: 6rem;
+  z-index: 1;
   &__selectors {
     position: absolute;
+
     width: 100%;
     opacity: 1;
     transition: all #{$page-transition-time};
