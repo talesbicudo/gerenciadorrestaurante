@@ -9,8 +9,8 @@
 import _ from "lodash";
 import FormatPrice from "@/mixins/FormatPrice";
 import TablePrice from "./TablePrice";
-import {TablePayments} from '@/client/queries'
-import POPUP from '@/types/Popup';
+import { TablePayments } from "@/client/queries";
+import POPUP from "@/types/Popup";
 
 export default {
   mixins: [FormatPrice],
@@ -36,13 +36,20 @@ export default {
     tableAttrs() {
       return [
         { name: "Cliente", values: _.map(this.order.payments, "provider") },
-        { name: "Pagamento", values: _.map(this.order.payments, "value"), price: true }
+        {
+          name: "Pagamento",
+          values: _.map(this.order.payments, "value"),
+          price: true
+        }
       ];
     }
   },
   methods: {
-    addPayment(){
-      this.$store.commit('popupOpen', {type: POPUP.PAYMENT_ADD})
+    addPayment() {
+      this.$store.commit("popupOpen", {
+        type: POPUP.PAYMENT_ADD,
+        args: { toPay: this.toPay }
+      });
     }
   }
 };

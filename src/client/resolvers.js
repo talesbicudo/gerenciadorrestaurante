@@ -114,7 +114,14 @@ export default {
                 value
             }
             order.payments.push(newPayment)
-            return order.payments;
+            const payed = _.sum(order.payments, 'value');
+            const toPay = order.consumedItems.reduce((val, item) =>
+                val + item.quantity * item.itemType.value
+                , 0)
+            if (!(toPay - payed)) order.open = false;
+            order.closedAt = new Date();
+
+            return newPayment;
         }
     }),
 }

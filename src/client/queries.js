@@ -44,6 +44,7 @@ export const TablePayments = gql`
               provider
               value
             }
+            open
             totalPrice @client
             totalPay @client
           }

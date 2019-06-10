@@ -2,7 +2,12 @@
     <div class="form-add-payment">
         <h1>Pagamento</h1>
         <form @submit.prevent="addPayment" action="" class="form-add-payment__form">
-            <Input v-model="value" v-currency="{currency, locale}" autofocus :placeholder="'valor'"/>
+            <CurrencyInput v-model="value" 
+            :currency="currency" 
+            :locale="locale" :max="toPay" 
+            :distractionFree="false"
+             autofocus :placeholder="'valor'"/>
+            <button type="click" @click.prevent="setToPay"> Tudo </button>
             <Input v-model="client" :placeholder="'nome do cliente'"/>
             <button type="submit">Done</button>
         </form>
@@ -18,7 +23,7 @@ export default {
   data() {
     return {
       client: "",
-      value: "0",
+      value: 0,
       locale: "pt-br",
       currency: "BRL"
     };
@@ -26,9 +31,15 @@ export default {
   computed: {
     selectedId() {
       return this.$store.state.orders.selectedId;
+    },
+    toPay() {
+      return this.$store.state.popup.args.toPay;
     }
   },
   methods: {
+    setToPay() {
+        this.value = this.toPay;
+    },
     addPayment() {
       const client = this.client;
       const value = this.$parseCurrency(
@@ -63,7 +74,10 @@ export default {
               data
             });
           },
-          refetchQueries: [{query: Container}, {query: TablePayments, variables: {id}}]
+          refetchQueries: [
+            { query: Container },
+            { query: TablePayments, variables: { id } }
+          ]
         })
         .then(() => {
           this.$store.commit("popupClose");
