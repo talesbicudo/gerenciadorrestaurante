@@ -2,15 +2,15 @@
     <div class="form-add-payment">
         <h1>Pagamento</h1>
         <form @submit.prevent="addPayment" action="" class="form-add-payment__form">
-            <CurrencyInput :class="'input--default'"
+            <CurrencyInput ref="currencyInput" 
+            class="form-add-payment__all input--default "
              v-model="value" 
             :currency="currency" 
             :locale="locale" :max="toPay" 
-            :distractionFree="false"
-             autofocus :placeholder="'valor'"/>
-            <button class="button--default" type="click" @click.prevent="setToPay"> Tudo </button>
+            :placeholder="'valor'"/>
+            <button class="button--default" type="click" @click.prevent="setToPay"> Restante </button>
             <Input v-model="client" :placeholder="'nome do cliente'"/>
-            <button class="button--default" type="submit">Done</button>
+            <button class="button--default" type="submit">Concluir</button>
         </form>
     </div>
 </template>
@@ -24,7 +24,7 @@ export default {
   data() {
     return {
       client: "",
-      value: 0,
+      value: null,
       locale: "pt-br",
       currency: "BRL"
     };
@@ -39,15 +39,19 @@ export default {
   },
   methods: {
     setToPay() {
-        this.value = this.toPay;
+      this.value = this.toPay;
     },
     addPayment() {
-      const client = this.client;
+      const client = this.client || "Anônimo";
       const value = this.$parseCurrency(
         this.value || "0",
         this.locale,
         this.currency
       );
+      if (value === 0) {
+        this.$store.commit("popupClose");
+        return;
+      }
       const id = this.selectedId;
       this.$apollo
         .mutate({
@@ -90,5 +94,10 @@ export default {
 
 <style lang="scss">
 .form-add-payment {
+  &__all {
+    margin-bottom: 1rem;
+    margin-right: 1rem;
+    width: 30%;
+  }
 }
 </style>

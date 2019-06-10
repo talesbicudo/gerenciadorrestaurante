@@ -97,9 +97,9 @@ export default {
   $margin-right: 2rem;
   padding: 0 $horizontal-padding;
   margin: auto;
+  margin: auto;
   &__list {
     @include flexGrid;
-    /* justify-content: space-around; */
     &-item {
       padding: 1rem $horizontal-padding;
     }
@@ -113,7 +113,6 @@ export default {
     &:not(:last-of-type) {
       margin-right: $margin-right;
     }
-
     &--number {
       width: 30%;
     }
