@@ -32,6 +32,7 @@ import {
 import Input from "./TheInput";
 import StoreSelectedId from "@/mixins/StoreSelectedId";
 import gql from "graphql-tag";
+import _ from "lodash";
 
 const LIMIT = 3;
 export default {
