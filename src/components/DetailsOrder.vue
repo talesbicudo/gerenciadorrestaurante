@@ -5,8 +5,6 @@
         <div v-else>
           <h3>Selecione uma mesa</h3>
         </div>
-        <!-- <TablePricePayments v-if="!!storeSelectedId" :id="storeSelectedId"/>
-        <TablePriceItems v-if="!!storeSelectedId" :id="storeSelectedId"/> -->
     </div>
 </template>
 
