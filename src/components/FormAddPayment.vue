@@ -6,7 +6,7 @@
             class="form-add-payment__all input--default "
              v-model="value" 
             :currency="currency" 
-            :locale="locale" :max="toPay" 
+            :locale="locale" 
             :placeholder="'valor'"/>
             <button class="button--default" type="click" @click.prevent="setToPay"> Restante </button>
             <Input v-model="client" :placeholder="'nome do cliente'"/>
