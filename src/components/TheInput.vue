@@ -5,19 +5,18 @@
         class="input__input"
         :placeholder="placeholder" 
         v-bind="inputProps"
-        @input="$emit('input', $event.target.value)" 
+        @input="$emit('input', value)" 
         v-model="value"
         autofocus
         >
-        <button class="input__close" @click="emptyValue"><CloseIcon/></button>
+        <button v-if="value" class="input__close" @click="emptyValue"><CloseIcon/></button>
     </div>
 </template>
 
 <script>
-
 import CloseIcon from "vue-ionicons/dist/md-close";
 export default {
-  components: {CloseIcon},
+  components: { CloseIcon },
   props: {
     id: {
       type: String,
@@ -32,14 +31,15 @@ export default {
       default: () => ({ type: "text" })
     }
   },
-  data(){
+  data() {
     return {
       value: ""
-    }
+    };
   },
   methods: {
-    emptyValue(){
+    emptyValue() {
       this.value = "";
+      this.$emit("input", this.value);
     }
   }
 };
@@ -48,30 +48,41 @@ export default {
 <style lang="scss">
 .input {
   $close-size: 3rem;
+  $height: calc(#{$font-size-big} + 2rem);
   margin: auto;
-  display: block;
-  @include clearfix;
+  overflow: hidden;
+  height: $height;
   &__input {
+    overflow: hidden;
+    display: inline-block;
     border-radius: 2px;
     width: 100%;
     font-size: $font-size-big;
     background-color: rgba($color-white, 0.9);
     border: solid $color-grey-dark 1px;
-    padding: .2rem .4rem;
+    padding: 0.2rem 0.4rem;
     border-radius: 3px;
     &:focus {
+      outline-offset: 0;
       outline: none;
       box-shadow: 0 1rem 2rem rgba($color-black, 0.1);
       border: none;
       border-bottom: 1px solid $color-blue;
     }
-    float: left;
-    width: calc(100% - #{$close-size})
+    width: calc(100% - #{$close-size});
   }
   &__close {
-    float: left;
-    font-size: $font-size-big;
+    display: inline-block;
     width: $close-size;
+    font-size: $font-size-big;
+    & svg {
+      fill: $color-red;
+      margin: auto;
+      display: block;
+    }
+    & div {
+      height: 2rem;
+    }
   }
 }
 </style>
