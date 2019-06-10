@@ -1,31 +1,37 @@
 <template>
-    <TablePrice @add="addPayment" name="payments" v-if="!$apollo.queries.order.loading" :attributes="tableAttrs">
+  <div class="table-payments">
+    <TablePrice name="payments" v-if="!$apollo.queries.order.loading" :attributes="tableAttrs">
         <template v-slot:total-cell-name>À pagar</template>
         <template v-slot:total-cell-value>{{toPay | formatPrice}}</template>
     </TablePrice>
+    <button @click="addPayment" v-if="order.open">Adicionar</button>
+    <div v-else>
+      <p> Pago às {{order.closedAt | time}}</p>
+    </div>
+  </div>
 </template>
 
 <script>
 import _ from "lodash";
 import FormatPrice from "@/mixins/FormatPrice";
+import FormatDate from "@/mixins/FormatDate";
+import StoreSelectedId from "@/mixins/StoreSelectedId";
 import TablePrice from "./TablePrice";
 import { TablePayments } from "@/client/queries";
 import POPUP from "@/types/Popup";
 
 export default {
-  mixins: [FormatPrice],
+  mixins: [FormatPrice, FormatDate, StoreSelectedId],
   components: { TablePrice },
-  props: {
-    id: {
-      type: String,
-      default: "0"
-    }
-  },
+
   apollo: {
     order: {
       query: TablePayments,
+      skip() {
+        return !this.hasSelectedId;
+      },
       variables() {
-        return { id: this.id };
+        return { id: this.storeSelectedId };
       }
     }
   },

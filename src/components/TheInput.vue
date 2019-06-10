@@ -6,17 +6,18 @@
         :placeholder="placeholder" 
         v-bind="inputProps"
         @input="$emit('input', $event.target.value)" 
+        v-model="value"
         autofocus
         >
-        <label
-        class="input__label"
-        :for="id">{{placeholder}}
-        </label>
+        <button class="input__close" @click="emptyValue"><CloseIcon/></button>
     </div>
 </template>
 
 <script>
+
+import CloseIcon from "vue-ionicons/dist/md-close";
 export default {
+  components: {CloseIcon},
   props: {
     id: {
       type: String,
@@ -30,14 +31,26 @@ export default {
       type: Object,
       default: () => ({ type: "text" })
     }
+  },
+  data(){
+    return {
+      value: ""
+    }
+  },
+  methods: {
+    emptyValue(){
+      this.value = "";
+    }
   }
 };
 </script>
 
 <style lang="scss">
 .input {
+  $close-size: 3rem;
   margin: auto;
   display: block;
+  @include clearfix;
   &__input {
     border-radius: 2px;
     width: 100%;
@@ -52,19 +65,13 @@ export default {
       border: none;
       border-bottom: 1px solid $color-blue;
     }
+    float: left;
+    width: calc(100% - #{$close-size})
   }
-  &__label {
-    width: 100%;
-    margin-top: 0.7rem;
+  &__close {
+    float: left;
     font-size: $font-size-big;
-    display: block;
-    transition: all 0.3s;
-  }
-
-  &__input:placeholder-shown + &__label {
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-4rem);
+    width: $close-size;
   }
 }
 </style>

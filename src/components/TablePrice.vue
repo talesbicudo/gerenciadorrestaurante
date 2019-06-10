@@ -24,7 +24,6 @@
                 </tr>
             </tfoot>
         </table>
-        <button @click="$emit('add')"><slot name="addButton">Adicionar</slot></button>
     </div>
 
 </template>

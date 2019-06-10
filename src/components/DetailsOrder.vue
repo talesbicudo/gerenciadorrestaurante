@@ -1,18 +1,25 @@
 <template>
     <div class="details-order">
-        <h1 v-if="!!order" class="details-order__heading"> Pedido {{order.number}}</h1>
-        <TablePricePayments v-if="!!storeSelectedId" :id="storeSelectedId"/>
-        <TablePriceItems v-if="!!storeSelectedId" :id="storeSelectedId"/>
+        <h1 class="details-order__heading"> Detalhes</h1>
+        <TabbedContent v-if="!!storeSelectedId" :data="tabData" />
+        <div v-else>
+          <h3>Selecione uma mesa</h3>
+        </div>
+        <!-- <TablePricePayments v-if="!!storeSelectedId" :id="storeSelectedId"/>
+        <TablePriceItems v-if="!!storeSelectedId" :id="storeSelectedId"/> -->
     </div>
 </template>
 
 <script>
 import gql from "graphql-tag";
+import StoreSelectedId from '@/mixins/StoreSelectedId'
 import TablePricePayments from "./TablePricePayments";
 import TablePriceItems from "./TablePriceItems";
+import TabbedContent from "./TabbedContent";
 
 export default {
-  components: { TablePricePayments, TablePriceItems },
+  mixins: [StoreSelectedId],
+  components: { TabbedContent },
   apollo: {
     order: {
       query: gql`
@@ -30,10 +37,19 @@ export default {
       }
     }
   },
-  computed: {
-    storeSelectedId() {
-      return this.$store.state.orders.selectedId;
-    }
+  data() {
+    return {
+      tabData: [
+        {
+          name: "Pagamentos",
+          component: TablePricePayments,
+        },
+        {
+          name: "Compras",
+          component: TablePriceItems,
+        }
+      ]
+    };
   }
 };
 </script>

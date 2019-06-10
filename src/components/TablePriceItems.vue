@@ -8,17 +8,12 @@
 import _ from "lodash";
 import gql from "graphql-tag";
 import FormatPrice from "@/mixins/FormatPrice";
+import StoreSelectedId from '@/mixins/StoreSelectedId'
 import TablePrice from "./TablePrice";
 
 export default {
-  mixins: [FormatPrice],
+  mixins: [FormatPrice, StoreSelectedId],
   components: { TablePrice },
-  props: {
-    id: {
-      type: String,
-      default: "0"
-    }
-  },
   apollo: {
     order: {
       query: gql`
@@ -37,7 +32,7 @@ export default {
         }
       `,
       variables() {
-        return { id: this.id };
+        return { id: this.storeSelectedId };
       }
     }
   },

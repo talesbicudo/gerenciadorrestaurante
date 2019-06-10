@@ -1,5 +1,6 @@
 <template>
     <div class="order-container">
+        <h1>Mesas</h1>
         <div class="order-container__search-container">
           <Input 
             class="order-container__search order-container__search--number"

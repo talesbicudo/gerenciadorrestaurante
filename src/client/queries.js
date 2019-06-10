@@ -45,6 +45,7 @@ export const TablePayments = gql`
               value
             }
             open
+            closedAt
             totalPrice @client
             totalPay @client
           }
