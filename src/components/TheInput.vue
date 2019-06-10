@@ -22,6 +22,10 @@ export default {
       type: String,
       default: "input"
     },
+    default: {
+      type: String,
+      default: ""
+    },
     placeholder: {
       type: String,
       default: "placeholder"
@@ -33,7 +37,7 @@ export default {
   },
   data() {
     return {
-      value: ""
+      value: this.default
     };
   },
   methods: {
