@@ -68,6 +68,8 @@ export default {
       transform: translateX(0);
       &--details-order#{&}--selected {
         transform: translate(0);
+        height: inherit;
+        overflow: auto;
       }
       &--container-order {
         width: 60%;
