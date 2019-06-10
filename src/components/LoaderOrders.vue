@@ -14,20 +14,14 @@ export default {
     };
   },
   apollo: {
-    loadingOrders: {
-      query: gql`
-        query($dayDate: DateTime!) {
-          loadingOrders: dayOrders(dayDate: $dayDate) {
+    loadingOrders: gql`
+        query {
+          loadingOrders: dayOrders{
             ...orderData
           }
         }
         ${OrderFragment}
-      `,
-      variables() {
-        return { dayDate: this.dayDate };
-      }
-    }
+      `
   },
-  
 };
 </script>

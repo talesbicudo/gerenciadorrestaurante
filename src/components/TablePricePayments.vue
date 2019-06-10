@@ -7,9 +7,9 @@
 
 <script>
 import _ from "lodash";
-import gql from "graphql-tag";
 import FormatPrice from "@/mixins/FormatPrice";
 import TablePrice from "./TablePrice";
+import {TablePayments} from '@/client/queries'
 import POPUP from '@/types/Popup';
 
 export default {
@@ -23,18 +23,7 @@ export default {
   },
   apollo: {
     order: {
-      query: gql`
-        query($id: String!) {
-          order(id: $id) {
-            payments {
-              provider
-              value
-            }
-            totalPrice @client
-            totalPay @client
-          }
-        }
-      `,
+      query: TablePayments,
       variables() {
         return { id: this.id };
       }

@@ -33,6 +33,29 @@ export const OrderLocalFragment = gql`
         totalPrice @client
         updates @client
         searchTags @client
+        totalPay @client
     }
 
 `
+export const TablePayments = gql`
+        query($id: String!) {
+          order(id: $id) {
+            payments {
+              provider
+              value
+            }
+            totalPrice @client
+            totalPay @client
+          }
+        }
+      `
+export const Container = gql`
+        query {
+        orders: dayOrders {
+            ...orderData
+            ...localOrderData
+          }
+        }
+        ${OrderFragment}
+        ${OrderLocalFragment}
+      `

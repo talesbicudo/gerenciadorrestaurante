@@ -51,7 +51,6 @@ export default {
   &__content {
     @include absCenter;
     width: 95%;
-    height: 80vh;
     background-color: $color-grey-light;
     box-shadow: 0 2rem 4rem rgba($color-black, 0.2);
     border-radius: 3px;
@@ -63,7 +62,6 @@ export default {
     padding: 1rem 2rem;
     @include respond(tab-land) {
       width: 60%;
-      height: 60vh;
       padding: 2rem 4rem;
     }
   }

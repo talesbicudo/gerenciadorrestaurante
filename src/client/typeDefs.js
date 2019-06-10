@@ -16,7 +16,7 @@ export default gql`
 
     type Day {
         id: String!
-        date: DateTime!
+        date: String! 
         closedAt: DateTime
         orders: [Order!]!
     }
@@ -47,13 +47,13 @@ export default gql`
     }
 
     type Query {
-       dayOrders(dayDate: DateTime): [Order!]!
+       dayOrders: [Order!]!
        itemTypes: [ItemType!]!
        order(id: String!) : Order!
     }
 
    type Mutation {
        closeOrder(id: String!) : Order!
-       addPayment(id: String!, value: Float! provider: String) : Order!
+       addPayment(id: String!, value: Float! provider: String) : Payment!
    }
 `

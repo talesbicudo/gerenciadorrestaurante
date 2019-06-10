@@ -24,23 +24,14 @@
     </div>    
 </template>
 <script>
-import gql from "graphql-tag";
 import _ from "lodash";
 import ContainerItemOrder from "./ContainerItemOrder";
 import Input from "./TheInput";
-import { OrderFragment } from "@/client/queries";
-import { OrderLocalFragment } from "@/client/queries";
-
+import { Container } from "@/client/queries";
 export default {
   components: {
     ContainerItemOrder,
     Input
-  },
-  props: {
-    dayDate: {
-      type: Date,
-      default: () => new Date()
-    }
   },
   data: function() {
     return {
@@ -49,23 +40,12 @@ export default {
     };
   },
   apollo: {
-    orders: {
-      query: gql`
-        query($dayDate: DateTime!) {
-          orders: dayOrders(dayDate: $dayDate) {
-            ...orderData
-            ...localOrderData
-          }
-        }
-        ${OrderFragment}
-        ${OrderLocalFragment}
-      `,
-      variables() {
-        return { dayDate: this.dayDate };
-      },
-    }
+    orders: Container
   },
   computed: {
+    dayDate() {
+      return this.$store.state.orders.selectedDay;
+    },
     lastNumberTable() {
       return this.orders
         ? _.maxBy(this.orders, "table.number").table.number
@@ -83,14 +63,14 @@ export default {
     numberTableOrders() {
       if (!this.numberSearch) return this.orders;
       return this.orders.filter(order =>
-        (new RegExp(this.numberSearch)).test(String(order.table.number))
+        new RegExp(this.numberSearch).test(String(order.table.number))
       );
     },
     filterOrders() {
       return [this.searchOrders, this.numberTableOrders];
     },
     validatedOrders() {
-      const filteredOrders = _.intersectionBy(...this.filterOrders, 'id');
+      const filteredOrders = _.intersectionBy(...this.filterOrders, "id");
       return [...filteredOrders]
         .sort(
           (orderA, orderB) =>
@@ -114,12 +94,12 @@ export default {
 .order-container {
   $horizontal-padding: 2rem;
   $margin-right: 2rem;
-  margin: auto; 
+  margin: auto;
   &__list {
     @include flexGrid;
     justify-content: center;
     &-item {
-        padding: 1rem $horizontal-padding;
+      padding: 1rem $horizontal-padding;
     }
   }
 

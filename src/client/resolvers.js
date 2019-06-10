@@ -16,7 +16,7 @@ const table = (number) => ({
 })
 
 const day = (date, orders) => ({
-    date,
+    date: date.toString(),
     id: faker.random.uuid(),
     orders
 })
@@ -44,7 +44,7 @@ const consumedItem = (createdAt) => ({
 })
 const createOrder = (numberTable) => {
     const createdAt = faker.date.between(OPEN_DATE, CLOSE_DATE);
-    const itemQ = faker.random.number({min: 1, max: 3});
+    const itemQ = faker.random.number({ min: 1, max: 3 });
     const items = [...Array(itemQ)].map(() => consumedItem(createdAt))
     const totalItemPrice = items.length ?
         items.reduce(
@@ -54,7 +54,7 @@ const createOrder = (numberTable) => {
     const lastItemDate = items.length ? _.maxBy(items, 'createdAt').createdAt : createdAt;
     let payments = items.length ?
         [...Array(faker.random.number(itemQ))].map(() =>
-        payment(+faker.commerce.price(1, totalItemPrice / totalItems), lastItemDate)) :
+            payment(+faker.commerce.price(1, totalItemPrice / totalItems), lastItemDate)) :
         [];
     const open = faker.random.boolean();
     if (!open) {
@@ -77,7 +77,7 @@ const findOrder = id => orders.find(order => order.id === id);
 
 
 let orders = [...Array(ORDERS_QUANTITY).keys()].map(i => createOrder(++i));
-orders = _.sortBy(orders, 'createdAt').map((order, i) => ({...order, number: i}));
+orders = _.sortBy(orders, 'createdAt').map((order, i) => ({ ...order, number: i }));
 let days = ([day(OPEN_DATE, orders)]);
 export default {
     ID: (root) => {
@@ -87,11 +87,14 @@ export default {
         payments: [],
         consumedItems: []
     }),
+    DateTime: (obj, args, context, field) => {
+        if (obj[field.fieldName]) return obj[field.fieldName];
+        return new Date();
+    },
+
     Query: () => ({
-        dayOrders: (root, { dayDate }) =>
-            days.find(findingDay => {
-                return findingDay.date.toDateString() === dayDate.toDateString()
-            }).orders
+        dayOrders: () =>
+            _.last(days).orders
         ,
         itemTypes: () => items,
     }),
@@ -102,15 +105,16 @@ export default {
             return order;
         },
         addPayment: (root, args) => {
-            const { orderId, value } = args;
-            const order = findOrder(orderId);
-            order.payments.push({
+            const { id, value } = args;
+            const order = findOrder(id);
+            const newPayment = {
                 id: faker.random.uuid(),
                 provider: args.provider || "",
                 createdAt: new Date(),
                 value
-            })
-            return order;
+            }
+            order.payments.push(newPayment)
+            return order.payments;
         }
     }),
 }
