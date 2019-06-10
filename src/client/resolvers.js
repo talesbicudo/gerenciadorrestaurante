@@ -30,7 +30,7 @@ const payment = (value, createdAt) => ({
 
 const item = (limit) => ({
     name: faker.lorem.word(),
-    value: +faker.commerce.price(1, limit, 2),
+    value: +faker.commerce.price(1, limit),
     id: faker.random.uuid()
 })
 
@@ -54,7 +54,7 @@ const createOrder = (numberTable) => {
     const lastItemDate = items.length ? _.maxBy(items, 'createdAt').createdAt : createdAt;
     let payments = items.length ?
         [...Array(faker.random.number(itemQ))].map(() =>
-        payment(+faker.commerce.price(1, totalItemPrice / totalItems, 2), lastItemDate)) :
+        payment(+faker.commerce.price(1, totalItemPrice / totalItems), lastItemDate)) :
         [];
     const open = faker.random.boolean();
     if (!open) {
@@ -107,6 +107,7 @@ export default {
             order.payments.push({
                 id: faker.random.uuid(),
                 provider: args.provider || "",
+                createdAt: new Date(),
                 value
             })
             return order;

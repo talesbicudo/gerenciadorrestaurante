@@ -28,7 +28,7 @@ export default gql`
 
     type Payment {
         provider: String
-        value: Int!
+        value: Float!
         createdAt: DateTime!
         id: String!
     }
