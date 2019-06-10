@@ -9,13 +9,15 @@
 <script>
 import POPUP from "@/types/Popup";
 import FormAddPayment from "./FormAddPayment";
+import FormAddItem from "./FormAddItem";
 
 const componentByType = {
-  [POPUP.PAYMENT_ADD]: FormAddPayment
+  [POPUP.PAYMENT_ADD]: FormAddPayment,
+  [POPUP.ITEM_ADD]: FormAddItem
 };
 
 export default {
-  components: { FormAddPayment },
+  components: { FormAddPayment, FormAddItem },
   computed: {
     type() {
       return this.$store.state.popup.type;
