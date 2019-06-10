@@ -30,7 +30,6 @@ export default {
   },
   methods: {
     toDetails() {
-      console.log("details");
       this.$store.commit("mobilePageChange", { type: MOBILE.ORDER_DETAILS });
     },
     toSelection() {

@@ -98,12 +98,4 @@ export default {
   }
 }
 
-/* .tabs ul {
-  list-style-type: none;
-  margin-left: 20px;
-} */
-
-/* Change background color of tabs on hover */
-/* Styling for active tab */
-/* Style the tab content */
 </style>

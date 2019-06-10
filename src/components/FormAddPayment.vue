@@ -2,14 +2,15 @@
     <div class="form-add-payment">
         <h1>Pagamento</h1>
         <form @submit.prevent="addPayment" action="" class="form-add-payment__form">
-            <CurrencyInput v-model="value" 
+            <CurrencyInput :class="'input--default'"
+             v-model="value" 
             :currency="currency" 
             :locale="locale" :max="toPay" 
             :distractionFree="false"
              autofocus :placeholder="'valor'"/>
-            <button type="click" @click.prevent="setToPay"> Tudo </button>
+            <button class="button--default" type="click" @click.prevent="setToPay"> Tudo </button>
             <Input v-model="client" :placeholder="'nome do cliente'"/>
-            <button type="submit">Done</button>
+            <button class="button--default" type="submit">Done</button>
         </form>
     </div>
 </template>

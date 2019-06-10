@@ -2,7 +2,7 @@
     <div class="input">
         <input 
         :id="id"
-        class="input__input"
+        class="input__input input--default"
         :placeholder="placeholder" 
         v-bind="inputProps"
         @input="$emit('input', value)" 
@@ -53,22 +53,6 @@ export default {
   overflow: hidden;
   height: $height;
   &__input {
-    overflow: hidden;
-    display: inline-block;
-    border-radius: 2px;
-    width: 100%;
-    font-size: $font-size-big;
-    background-color: rgba($color-white, 0.9);
-    border: solid $color-grey-dark 1px;
-    padding: 0.2rem 0.4rem;
-    border-radius: 3px;
-    &:focus {
-      outline-offset: 0;
-      outline: none;
-      box-shadow: 0 1rem 2rem rgba($color-black, 0.1);
-      border: none;
-      border-bottom: 1px solid $color-blue;
-    }
     width: calc(100% - #{$close-size});
   }
   &__close {
