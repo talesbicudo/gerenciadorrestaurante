@@ -19,7 +19,7 @@ html {
 body {
     box-sizing: border-box;
 }
-      
+
 ::selection {
     background-color: $color-background;
     color: $color-white;
@@ -31,10 +31,10 @@ button {
     font: inherit;
     color: inherit;
     background-color: transparent;
-    /* show a hand cursor on hover; some argue that we
-    should keep the default arrow cursor for buttons */
     cursor: pointer;
     &:focus {
         outline: 0;
     }
-  }
+}
+
+

@@ -1,6 +1,6 @@
 <template>
-    <button @click="$emit('click')" class="nav-page" :class="navPageDirClass">
-      <component :is="arrow"/>
+    <button @click.prevent="$emit('click')" class="nav-page button--default" :class="navPageDirClass">
+      <component class="nav-page__icon" :is="arrow"/>
     </button>
 </template>
 
@@ -53,5 +53,10 @@ export default {
     left: 0;
     transform: translateX(50%);
   }
+  &__icon {
+    height: 100%;
+    transform: translate(-100%, -25%);
+  }
+  
 }
 </style>

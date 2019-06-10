@@ -1,5 +1,6 @@
 <template>
     <nav class="nav">
+        <h1>Restaurante</h1>
         <div class="nav__selectors">
             <NavPage @click="toDetails" v-if="isSelectionPage && hasSelectedId"/>
             <NavPage @click="toSelection" v-if="isDetailsPage" left/>
@@ -14,25 +15,26 @@ import MOBILE from "@/types/MobilePage";
 export default {
   components: { NavPage },
   computed: {
-    currentPage(){
+    currentPage() {
       return this.$store.state.mobilePage.type;
     },
-    hasSelectedId(){
+    hasSelectedId() {
       return !!this.$store.state.orders.selectedId;
     },
-    isSelectionPage(){
+    isSelectionPage() {
       return this.currentPage === MOBILE.ORDER_SELECT;
     },
-    isDetailsPage(){
+    isDetailsPage() {
       return this.currentPage === MOBILE.ORDER_DETAILS;
     }
   },
   methods: {
     toDetails() {
-      this.$store.commit('mobilePageChange', {type: MOBILE.ORDER_DETAILS})
+      console.log("details");
+      this.$store.commit("mobilePageChange", { type: MOBILE.ORDER_DETAILS });
     },
     toSelection() {
-      this.$store.commit('mobilePageChange', {type: MOBILE.ORDER_SELECT})
+      this.$store.commit("mobilePageChange", { type: MOBILE.ORDER_SELECT });
     }
   }
 };
@@ -40,17 +42,21 @@ export default {
 
 <style lang="scss">
 .nav {
+  h1 {
+    text-align: center;
+  }
+  position: relative;
   width: 100%;
   height: 6rem;
   &__selectors {
-    position: relative;
+    position: absolute;
+    width: 100%;
     opacity: 1;
     transition: all #{$page-transition-time};
     display: block;
-    @include respond(tab-land){
+    @include respond(tab-land) {
       opacity: 0;
     }
   }
-  
 }
 </style>
