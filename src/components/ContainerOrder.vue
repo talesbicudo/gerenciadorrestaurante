@@ -95,20 +95,20 @@ export default {
 .order-container {
   $horizontal-padding: 2rem;
   $margin-right: 2rem;
+  padding: 0 $horizontal-padding;
   margin: auto;
   &__list {
     @include flexGrid;
-    justify-content: center;
+    justify-content: space-around;
     &-item {
       padding: 1rem $horizontal-padding;
     }
   }
 
   &__search-container {
-    padding: 0 $horizontal-padding;
+    overflow: hidden;
   }
   &__search {
-    padding: 0 $horizontal-padding;
     display: inline-block;
     &:not(:last-of-type) {
       margin-right: $margin-right;
