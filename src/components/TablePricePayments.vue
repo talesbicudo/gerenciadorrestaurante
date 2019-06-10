@@ -1,8 +1,8 @@
 <template>
   <div class="table-payments">
     <TablePrice name="payments" v-if="!$apollo.queries.order.loading" :attributes="tableAttrs">
-        <template v-slot:total-cell-name>À pagar</template>
-        <template v-slot:total-cell-value>{{toPay | formatPrice}}</template>
+        <template v-slot:total-cell-name>Total</template>
+        <template v-slot:total-cell-value>{{order.totalPay | formatPrice}}</template>
     </TablePrice>
     <button class="button--default" @click="addPayment" v-if="order.open">Adicionar</button>
     <div v-else>

@@ -1,6 +1,6 @@
 <template>
-    <div class="table-price-items">
-      <TablePrice name="items" v-if="!$apollo.queries.order.loading" :attributes="tableAttrs">
+    <div class="table-price-items" v-if="!$apollo.queries.order.loading">
+      <TablePrice name="items"  :attributes="tableAttrs">
           <template v-slot:total-cell-name>Total</template>
           <template v-slot:total-cell-value>{{order.totalPrice | formatPrice}}</template>
       </TablePrice>
