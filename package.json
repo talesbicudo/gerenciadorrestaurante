@@ -16,6 +16,7 @@
     "graphql-tools": "^4.0.4",
     "vue": "^2.6.10",
     "vue-apollo": "^3.0.0-beta.30",
+    "vue-currency-input": "^1.5.1",
     "vue-ionicons": "^3.0.4",
     "vue-mq": "^1.0.1",
     "vue-router": "^3.0.3",

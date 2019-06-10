@@ -10276,6 +10276,11 @@ test-exclude@^4.2.1:
     read-pkg-up "^1.0.1"
     require-main-filename "^1.0.1"
 
+text-mask-core@^5.1.2:
+  version "5.1.2"
+  resolved "https://registry.yarnpkg.com/text-mask-core/-/text-mask-core-5.1.2.tgz#80dd5ebe04825757e46619e691407a9f8b3c1b6f"
+  integrity sha1-gN1evgSCV1fkZhnmkUB6n4s8G28=
+
 text-table@^0.2.0, text-table@~0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
@@ -10866,6 +10871,13 @@ vue-cli-plugin-apollo@^0.20.0:
     nodemon "^1.18.10"
     subscriptions-transport-ws "^0.9.16"
     ts-node "^8.0.3"
+
+vue-currency-input@^1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/vue-currency-input/-/vue-currency-input-1.5.1.tgz#2fbd268e8a4df05264e2c617202077dd3624494e"
+  integrity sha512-RSaGnYzMid9lmzoY0vkOs6RXzcHDwpluk33kq+xEwoPRHpcaBZ+VniU/tvEY0qWB+0f43S85agNVRkxX/ZwMkQ==
+  dependencies:
+    text-mask-core "^5.1.2"
 
 vue-eslint-parser@^2.0.3:
   version "2.0.3"
