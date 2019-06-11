@@ -110,6 +110,7 @@ export default {
         closeOrder: (root, { id }) => {
             const order = findOrder(id);
             order.open = false;
+            order.closedAt = new Date();
             return order;
         },
         addPayment: (root, args) => {
