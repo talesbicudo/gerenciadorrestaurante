@@ -5,9 +5,6 @@
         <template v-slot:total-cell-value>{{order.totalPay | formatPrice}}</template>
     </TablePrice>
     <button class="button--default" @click="addPayment" v-if="order.open">Adicionar</button>
-    <div v-else>
-      <p> Pago às {{order.closedAt | time}}</p>
-    </div>
   </div>
 </template>
 
