@@ -1,5 +1,6 @@
 import faker from 'faker';
 import _ from 'lodash';
+import fp from 'lodash/fp'
 
 faker.locale = "pt_BR";
 faker.seed(3);
@@ -79,6 +80,7 @@ const findItemType = id => items.find(item => item.id === id);
 let orders = [...Array(ORDERS_QUANTITY).keys()].map(i => createOrder(++i));
 orders = _.sortBy(orders, 'createdAt').map((order, i) => ({ ...order, number: i }));
 let days = ([day(OPEN_DATE, orders)]);
+
 export default {
     ID: (root) => {
         return root.id;
@@ -93,14 +95,20 @@ export default {
     },
 
     Query: () => ({
-        dayOrders: () =>
-            _.last(days).orders
+        dayOrders: () => {
+            const data = fp.compose(
+                fp.sortBy(['table.number', 'createdAt']),
+                fp.uniqBy("table.number")
+            )(_.last(days).orders)
+            return data;
+        }
+
         ,
         itemTypes: () => items,
     }),
     Mutation: () => ({
-        closeOrder: (root, { orderId }) => {
-            const order = findOrder(orderId);
+        closeOrder: (root, { id }) => {
+            const order = findOrder(id);
             order.open = false;
             return order;
         },
@@ -117,7 +125,7 @@ export default {
 
             return newPayment;
         },
-        addItem(root, {orderId, quantity, itemId}){
+        addItem(root, { orderId, quantity, itemId }) {
             const order = findOrder(orderId);
             const consumedItem = {
                 id: faker.random.uuid(),
