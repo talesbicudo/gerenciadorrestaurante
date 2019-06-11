@@ -7,17 +7,7 @@
 </template>
 
 <script>
-import POPUP from "@/types/Popup";
-import FormAddPayment from "./FormAddPayment";
-import FormAddItem from "./FormAddItem";
-
-const componentByType = {
-  [POPUP.PAYMENT_ADD]: FormAddPayment,
-  [POPUP.ITEM_ADD]: FormAddItem
-};
-
 export default {
-  components: { FormAddPayment, FormAddItem },
   computed: {
     type() {
       return this.$store.state.popup.type;
@@ -26,7 +16,7 @@ export default {
       return this.type ? "popup--active" : "";
     },
     selectedChild() {
-      return this.type ? componentByType[this.type] : null;
+      return this.type ? this.type : null;
     }
   },
   methods: {

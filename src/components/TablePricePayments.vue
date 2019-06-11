@@ -18,7 +18,7 @@ import FormatDate from "@/mixins/FormatDate";
 import StoreSelectedId from "@/mixins/StoreSelectedId";
 import TablePrice from "./TablePrice";
 import { TablePayments } from "@/client/queries";
-import POPUP from "@/types/Popup";
+import FormAddPayment from "./FormAddPayment";
 
 export default {
   mixins: [FormatPrice, FormatDate, StoreSelectedId],
@@ -53,7 +53,7 @@ export default {
   methods: {
     addPayment() {
       this.$store.commit("popupOpen", {
-        type: POPUP.PAYMENT_ADD,
+        type: FormAddPayment,
         args: { toPay: this.toPay }
       });
     }

@@ -13,7 +13,7 @@ import {TableItems} from "@/client/queries";
 import FormatPrice from "@/mixins/FormatPrice";
 import StoreSelectedId from '@/mixins/StoreSelectedId'
 import TablePrice from "./TablePrice";
-import POPUP from "@/types/Popup";
+import FormAddItem from "./FormAddItem";
 
 export default {
   mixins: [FormatPrice, StoreSelectedId],
@@ -39,7 +39,7 @@ export default {
   },
   methods: {
     addItem(){
-      this.$store.commit('popupOpen', {type: POPUP.ITEM_ADD})
+      this.$store.commit('popupOpen', {type: FormAddItem})
     }
   }
 };
