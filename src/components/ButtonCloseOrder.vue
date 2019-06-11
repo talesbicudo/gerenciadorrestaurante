@@ -1,5 +1,5 @@
 <template>
-    <button @click="closeOrder" class="button--default">Fechar</button>
+    <button @click="closeOrder" class="button--default"><slot>Fechar</slot></button>
 </template>
 
 <script>
