@@ -54,7 +54,9 @@ export default gql`
 
    type Mutation {
        closeOrder(id: String!) : Order!
+       newOrder(tableNumber: Int!): Order!
        addPayment(id: String!, value: Float! provider: String) : Payment!
        addItem(orderId: String!, quantity: Int!, itemId: String!) : ConsumedItem!
    }
+
 `
