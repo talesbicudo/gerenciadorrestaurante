@@ -2,6 +2,7 @@
     <div class="details-order">
         <h1 class="details-order__heading">Detalhes</h1>
         <div v-if="!!storeSelectedId" class="details-order__content">
+          <h2>Mesa {{order.table.number}}</h2>
           <div v-if="order.open" class="details-order__close-order">
              <button v-if="balanceIsZero" class="button--default" @click="closeOrder">
                {{closeOrderText}}
@@ -39,11 +40,13 @@ export default {
       query: gql`
         query($id: String!) {
           order(id: $id) {
-            number
             totalPay @client
             totalPrice @client
             open
             closedAt
+            table {
+              number
+            }
           }
         }
       `,
