@@ -3,15 +3,15 @@
         <h1 class="details-order__heading">Detalhes</h1>
         <div v-if="!!storeSelectedId" class="details-order__content">
           <h3>Saldo: {{(order.totalPrice - order.totalPay) | formatPrice}}</h3>
-          <TabbedContent  :data="tabData" />
           <div v-if="order.open" class="details-order__close-order">
              <button v-if="balanceIsZero" class="button--default" @click="closeOrder">
-               Fechar Mesa
+               {{closeOrderText}}
              </button>
              <button v-else class="button--default" @click="closeWarn">
-               Fechar Mesa
+               {{closeOrderText}}
              </button>
           </div>
+          <TabbedContent  :data="tabData" />
         </div>
         <div v-else>
           <h3>Selecione uma mesa</h3>
@@ -55,6 +55,7 @@ export default {
   },
   data() {
     return {
+      closeOrderText: "Fechar mesa",
       tabData: [
         {
           name: "Pagamentos",
@@ -69,8 +70,8 @@ export default {
   },
 
   methods: {
-    closeWarn(){
-      this.$store.commit("popupOpen", {type: WarnCloseOrder})
+    closeWarn() {
+      this.$store.commit("popupOpen", { type: WarnCloseOrder });
     }
   }
 };
