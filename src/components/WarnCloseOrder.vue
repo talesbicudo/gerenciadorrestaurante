@@ -1,9 +1,9 @@
 <template>
     <div class="warn-close-order">
         <h1 class="warn-close-order__heading">Diferença de Valor</h1>
-        <p v-if="balanceIsPositive"> Valor restante à pagar: {{balance | formatPrice}}</p>
-        <p v-else> Valor pago à mais: {{balanceAbs | formatPrice}}</p>
-        <p> Continuar mesmo assim? </p>
+        <h2 v-if="balanceIsPositive"> Valor restante à pagar: {{balance | formatPrice}}</h2>
+        <h2 v-else> Valor pago à mais: {{balanceAbs | formatPrice}}</h2>
+        <h3> Continuar mesmo assim? </h3>
         <button @click="closeOrder" class="button--default warn-close-order__button">Continuar</button>
         <button @click="cancel" class="button--default">Cancelar</button>
     </div>
