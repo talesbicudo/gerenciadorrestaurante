@@ -1,6 +1,7 @@
 <template>
-  <div v-if="!$apollo.queries.order.loading" @click="setSelectedOrder" class="item-order">
-        <div :class="classHeader">
+  <div class="item-order-container">
+  <div v-if="!$apollo.queries.order.loading"  class="item-order">
+        <div @click.self="setSelectedOrder" :class="classHeader">
           <span class="item-order__table-name"> mesa </span>
           <span class="item-order__table-number">{{order.table.number | twoDigits}}</span>
         </div>
@@ -20,6 +21,8 @@
         </div>
       </div>
   </div>
+    <containerItemOrderButtons class="item-order__buttons" :id="id"/>
+  </div>
 </template>
 
 <script>
@@ -32,11 +35,17 @@ import TimeIcon from "vue-ionicons/dist/md-time";
 import SearchIcon from "vue-ionicons/dist/md-search";
 import SEARCH_TAG from "@/types/SearchTag";
 import MOBILE from "@/types/MobilePage";
-import MarkedText from "@/components/MarkedText";
-
+import MarkedText from "./MarkedText";
+import ContainerItemOrderButtons from "./ContainerItemOrderButtons";
 export default {
   mixins: [FormatPrice, FormatDate, FormatNumber],
-  components: { MarkedText, LockIcon, TimeIcon, SearchIcon },
+  components: {
+    MarkedText,
+    LockIcon,
+    TimeIcon,
+    SearchIcon,
+    ContainerItemOrderButtons
+  },
   props: {
     id: {
       type: String,
@@ -164,6 +173,10 @@ export default {
       fill: $color-grey-dark;
       transform: translate(-100%, -50%);
     }
+  }
+  &__buttons {
+    text-align: center;
+    margin-top: 1rem;
   }
 }
 </style>

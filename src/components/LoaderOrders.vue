@@ -3,9 +3,8 @@
 </template>
 
 <script>
-import { OrderFragment } from "@/client/queries";
+import { LoadingOrders } from "@/client/queries";
 import Pages from "@/components/Pages";
-import gql from "graphql-tag";
 export default {
   components: { Pages },
   data: function() {
@@ -14,14 +13,7 @@ export default {
     };
   },
   apollo: {
-    loadingOrders: gql`
-        query {
-          loadingOrders: dayOrders{
-            ...orderData
-          }
-        }
-        ${OrderFragment}
-      `
+    loadingOrders: LoadingOrders
   },
 };
 </script>

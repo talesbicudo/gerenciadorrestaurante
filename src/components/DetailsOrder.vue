@@ -1,5 +1,5 @@
 <template>
-    <div class="details-order">
+    <div v-if="!$apollo.queries.order.loading" class="details-order">
         <h1 class="details-order__heading">Detalhes</h1>
         <div v-if="!!storeSelectedId" class="details-order__content">
           <h2>Mesa {{order.table.number}}</h2>
