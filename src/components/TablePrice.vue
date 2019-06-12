@@ -79,6 +79,7 @@ export default {
 
 <style lang="scss">
 .table-price {
+  margin-bottom: 2rem;
   &__table {
     border: 3px solid $color-black;
     width: 100%;
