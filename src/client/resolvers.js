@@ -158,7 +158,7 @@ export default {
         removePayment(root, { orderId, paymentId }) {
             const order = findOrder(orderId);
             const toRemove = _.find(order.payments, item => item.id === paymentId);
-            _.remove(order.consumedItems, item => item.id === paymentId);
+            _.remove(order.payments, item => item.id === paymentId);
             return toRemove;
         }
     }),

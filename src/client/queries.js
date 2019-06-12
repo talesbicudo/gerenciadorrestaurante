@@ -49,10 +49,11 @@ export const LoadingOrders = gql`
 
 export const TablePayments = gql`
         query($id: String!) {
-          order(id: $id) {
+          order(id: $id) @client {
             payments {
               provider
               value
+              id
             }
             open
             closedAt
@@ -63,7 +64,7 @@ export const TablePayments = gql`
 
 export const TableItems = gql`
         query($id: String!) {
-          order(id: $id) {
+          order(id: $id) @client {
             consumedItems {
                 quantity
                 id

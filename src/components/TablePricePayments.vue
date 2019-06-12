@@ -1,6 +1,6 @@
 <template>
   <div class="table-payments">
-    <TablePrice name="payments" v-if="!$apollo.queries.order.loading" :attributes="tableAttrs">
+    <TablePrice @remove="callRemovePayment" name="payments" v-if="!$apollo.queries.order.loading" :attributes="tableAttrs">
         <template v-slot:total-cell-name>Total</template>
         <template v-slot:total-cell-value>{{order.totalPay | formatPrice}}</template>
     </TablePrice>
@@ -13,12 +13,13 @@ import _ from "lodash";
 import FormatPrice from "@/mixins/FormatPrice";
 import FormatDate from "@/mixins/FormatDate";
 import StoreSelectedId from "@/mixins/StoreSelectedId";
+import RemovePayment from "@/mixins/RemovePayment"
 import TablePrice from "./TablePrice";
 import { TablePayments } from "@/client/queries";
 import FormAddPayment from "./FormAddPayment";
 
 export default {
-  mixins: [FormatPrice, FormatDate, StoreSelectedId],
+  mixins: [FormatPrice, FormatDate, StoreSelectedId, RemovePayment],
   components: { TablePrice },
 
   apollo: {
@@ -48,6 +49,10 @@ export default {
     }
   },
   methods: {
+    callRemovePayment(i){
+      const paymentToRemoveId = this.order.payments[i].id;
+      this.removePayment(this.storeSelectedId, paymentToRemoveId);
+    },
     addPayment() {
       this.$store.commit("popupOpen", {
         type: FormAddPayment,
