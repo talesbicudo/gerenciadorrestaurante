@@ -90,7 +90,6 @@ export default {
         consumedItems: []
     }),
     DateTime: (obj, args, context, field) => {
-        debugger
         if (obj[field.fieldName]) return obj[field.fieldName];
         return new Date();
     },
