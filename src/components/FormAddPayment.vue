@@ -7,6 +7,7 @@
              v-model="value" 
             :currency="currency" 
             :locale="locale" 
+            :min="0"
             :placeholder="'valor'"/>
             <button class="button--default" type="click" @click.prevent="setToPay"> Restante </button>
             <Input v-model="client" :placeholder="'nome do cliente'"/>
