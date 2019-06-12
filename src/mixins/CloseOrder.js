@@ -6,7 +6,7 @@ export default {
   methods: {
     closeOrder() {
       const id = this.storeSelectedId;
-      this.$apollo.mutate({
+      return this.$apollo.mutate({
         mutation: gql`
           mutation($id: String!) {
             closeOrder(id: $id) {
