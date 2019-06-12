@@ -72,12 +72,8 @@ export default {
     },
     validatedOrders() {
       const filteredOrders = _.intersectionBy(...this.filterOrders, "id");
-      return [...filteredOrders]
-        .sort(
-          (orderA, orderB) =>
-            _.last(orderA.updates).date - _.last(orderB.updates).date
-        )
-        .reverse();
+      return _.sortBy([...filteredOrders], 'table.number')
+        
     },
     numberSubProps() {
       return {
