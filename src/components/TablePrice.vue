@@ -14,6 +14,11 @@
                 :key="i">
                     {{attr.value | formatPrice(attr.isPrice)}}
                 </td>
+                <td  class="table-price__body-cell table-price__body-cell--remove">
+                  <button @click="$emit('remove', i)" href="#">
+                    <RemoveIcon/>
+                  </button>
+                </td>
             </tr>
             </tbody>
             <tfoot>
@@ -30,10 +35,12 @@
 
 <script>
 import FormatPrice from "@/mixins/FormatPrice";
+import RemoveIcon from "vue-ionicons/dist/md-remove";
 import _ from "lodash";
 
 export default {
   mixins: [FormatPrice],
+  components: { RemoveIcon },
   props: {
     attributes: {
       type: Array,
@@ -81,13 +88,13 @@ export default {
 .table-price {
   &__row-body {
     color: $color-black;
-    &:nth-of-type(odd){
+    &:nth-of-type(odd) {
       background-color: $color-white;
     }
   }
+
   margin-bottom: 2rem;
   &__table {
-    border: 3px solid $color-black;
     width: 100%;
     text-align: left;
     border-collapse: collapse;
@@ -120,7 +127,6 @@ export default {
         #d3d3d3 66%,
         #cfcfcf 100%
       );
-      border-bottom: 3px solid $color-black;
     }
     thead th {
       font-size: 15px;
@@ -132,10 +138,16 @@ export default {
       font-size: 14px;
       font-weight: bold;
       color: #000000;
-      border-top: 3px solid #000000;
     }
     tfoot td {
       font-size: 14px;
+    }
+    tbody .table-price__body-cell--remove {
+      border: none;
+      font-size: $font-size-big;
+      background: white;
+      cursor: pointer;
+      width: 5rem;
     }
   }
 }
