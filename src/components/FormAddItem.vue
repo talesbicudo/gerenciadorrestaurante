@@ -4,16 +4,20 @@
         <form @submit.prevent="addItems" action="" class="form-add-payment__form">
             <div class="form-add-item__search">
                 <Input v-model="search" type="search" placeholder="Procurar Item"/>
-                <select name="items" v-model="selected" multiple="" class="form-add-item__search-list">
-                   <option v-for="item in searchedItems" :key="item.id" :value="item.id">
+                <div name="items" class="form-add-item__search-list">
+                   <div v-for="item in searchedItems" :key="item.id" :value="item.id">
                        {{item.name}}
-                    </option>
-                </select>
+                      <button type="button" @click="addItemForm(item.id)"><AddIcon/></button>
+                    </div>
+                </div>
             </div>
-            <div v-if="quantities.length" class="form-add-item__selected">
-                <div v-for="(selected, i) in selectedData" :key="selected.id" class="form-add-item__selected-item">
-                   <label>{{selected.name}} </label>
-                   <Input v-model="quantities[i].value" placeholder="" :default="'1'" :inputProps="{type: 'number', min: '1'}"/>
+            <div class="form-add-item__selected">
+                <div v-for="selected in selected" :key="selected.id" class="form-add-item__selected-item">
+                   <label>{{selected.name}} </label> 
+                   <button @click="removeItemForm(selected.id)" type="button">
+                     <RemoveIcon/>
+                    </button>
+                   <Input v-model="selected.quantity" placeholder="" :default="'1'" :inputProps="{type: 'number', min: '1'}"/>
                 </div>
             </div>
             <div class="form-add-item__submit">
@@ -33,16 +37,17 @@ import Input from "./TheInput";
 import StoreSelectedId from "@/mixins/StoreSelectedId";
 import gql from "graphql-tag";
 import _ from "lodash";
-
+import AddIcon from "vue-ionicons/dist/md-add";
+import RemoveIcon from "vue-ionicons/dist/md-remove";
 const LIMIT = 3;
+
 export default {
   mixins: [StoreSelectedId],
-  components: { Input },
+  components: { Input, AddIcon, RemoveIcon },
   data() {
     return {
       search: "",
-      selected: [],
-      quantities: []
+      selected: {}
     };
   },
   apollo: {
@@ -54,30 +59,31 @@ export default {
       return this.itemTypes.filter(item =>
         new RegExp(String(this.search), "i").test(item.name)
       );
-    },
-    selectedData() {
-      return this.selected
-        .map(id => _.find(this.itemTypes, { id }))
-        .map((data, i) => ({ ...data, i }))
-        .slice(0, LIMIT);
-    }
-  },
-  watch: {
-    selected(val) {
-      this.quantities = val.map(() => ({ value: "1" }));
     }
   },
   methods: {
+    addItemForm(id) {
+      this.selected = {
+        ...this.selected,
+        [id]: {
+          ..._.find(this.itemTypes, { id }),
+          quantity: 1
+        }
+      };
+    },
+    removeItemForm(id) {
+      delete this.selected[id];
+      this.$forceUpdate();
+    },
     addItems() {
       Promise.all(
-        this.selectedData.map(data =>
-          this.addItem(data, this.quantities[data.i])
+        Object.values(this.selected).map(data =>
+          this.addItem(data)
         )
       ).then(() => this.$store.commit("popupClose"));
     },
-    addItem({ id }, q) {
+    addItem({ id, quantity }) {
       const orderId = this.storeSelectedId;
-      const quantity = +q.value;
       return this.$apollo.mutate({
         mutation: gql`
           mutation($orderId: String!, $quantity: Int!, $itemId: String!) {
@@ -93,7 +99,7 @@ export default {
             }
           }
         `,
-        variables: { orderId, quantity, itemId: id },
+        variables: { orderId, quantity: +quantity, itemId: id },
         update(client, { data: { addItem } }) {
           const data = client.readFragment({
             id: orderId,
@@ -118,15 +124,20 @@ export default {
 
 <style lang="scss">
 .form-add-item {
+  $height: 50vh;
   &__search-list {
     width: 30%;
-    height: 30vh;
+    overflow-y: auto;
     float: left;
+    height: $height
+  }
+  &__selected {
+    float: left;
+    height: $height;
+    overflow-y: auto;
+    margin-left: 2rem;
   }
   &__selected-item {
-    float: left;
-    margin-left: 1rem;
-    width: 15%;
     label,
     input {
       display: inline-block;
