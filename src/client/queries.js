@@ -37,6 +37,16 @@ export const OrderLocalFragment = gql`
     }
 
 `
+
+export const LoadingOrders = gql`
+        query {
+          loadingOrders: dayOrders{
+            ...orderData
+          }
+        }
+        ${OrderFragment}
+      `
+
 export const TablePayments = gql`
         query($id: String!) {
           order(id: $id) {
