@@ -1,9 +1,10 @@
 <template>
   <div class="item-order-container">
   <div v-if="!$apollo.queries.order.loading"  class="item-order">
-        <div @click.self="setSelectedOrder" :class="classHeader">
+        <div @click="setSelectedOrder" :class="classHeader">
           <span class="item-order__table-name"> mesa </span>
           <span class="item-order__table-number">{{order.table.number | twoDigits}}</span>
+          <CheckMarkIcon class="item-order__check-icon" v-if="isSelectedId"/>
         </div>
       <div class="item-order__content">
         <div class="item-order__number">
@@ -30,20 +31,23 @@ import gql from "graphql-tag";
 import FormatPrice from "@/mixins/FormatPrice";
 import FormatDate from "@/mixins/FormatDate";
 import FormatNumber from "@/mixins/FormatNumber";
+import StoreSelectedId from "@/mixins/StoreSelectedId";
 import LockIcon from "vue-ionicons/dist/md-lock";
 import TimeIcon from "vue-ionicons/dist/md-time";
+import CheckMarkIcon from "vue-ionicons/dist/md-arrow-back";
 import SearchIcon from "vue-ionicons/dist/md-search";
 import SEARCH_TAG from "@/types/SearchTag";
 import MOBILE from "@/types/MobilePage";
 import MarkedText from "./MarkedText";
 import ContainerItemOrderButtons from "./ContainerItemOrderButtons";
 export default {
-  mixins: [FormatPrice, FormatDate, FormatNumber],
+  mixins: [FormatPrice, FormatDate, FormatNumber, StoreSelectedId],
   components: {
     MarkedText,
     LockIcon,
     TimeIcon,
     SearchIcon,
+    CheckMarkIcon,
     ContainerItemOrderButtons
   },
   props: {
@@ -82,19 +86,25 @@ export default {
   computed: {
     classHeader() {
       const base = "item-order__header";
-      return `${base} ${this.order.open ? base + "--open" : ""}`;
+      const openClass = this.order.open ? base + "--open" : "";
+      const selectedClass =
+        this.isSelectedId ? base + "--selected" : "";
+      return `${base} ${openClass} ${selectedClass}`;
     },
     updateLast() {
       return this.order.updates[this.order.updates.length - 1].date;
     },
     searchInfo() {
       return this.order.searchTags.filter(st => this.search.test(st.value));
+    },
+    isSelectedId() {
+      return this.id === this.storeSelectedId;
     }
   },
 
   methods: {
     setSelectedOrder() {
-      if (this.$store.state.orders.selectedId === this.id) {
+      if (this.isSelectedId) {
         this.$store.commit("orderUnSelect");
       } else {
         window.scroll({
@@ -135,12 +145,33 @@ export default {
     text-shadow: 0 0.1rem 0.3rem rgba($color-black, 0.3);
   }
   &__header {
+    position: relative;
     color: $color-white;
     padding: $inner-padding;
-    @include hoverableBg($color-blue);
+    background-color: $color-blue;
+    cursor: pointer;
     &--open {
-      @include hoverableBg($color-green);
+      background-color: $color-green;
     }
+    &--selected::after,
+    &:hover::after {
+      content: "\A";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      background: rgba(222, 255, 255, 0.1);
+      opacity: 1;
+      transition: all 0.5s;
+      -webkit-transition: all 0.5s;
+      -moz-transition: all 0.5s;
+    }
+  }
+  &__check-icon {
+    fill: $color-white;
+    display: inline-block;
+    font-size: $font-size-big;
   }
   &__content {
     @include clearfix;
