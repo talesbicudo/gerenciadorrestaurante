@@ -1,6 +1,6 @@
 <template>
     <div class="table-price-items" v-if="!$apollo.queries.order.loading">
-      <TablePrice name="items"  :attributes="tableAttrs">
+      <TablePrice @remove="removeItem" name="items"  :attributes="tableAttrs">
           <template v-slot:total-cell-name>Total</template>
           <template v-slot:total-cell-value>{{order.totalPrice | formatPrice}}</template>
       </TablePrice>
@@ -40,6 +40,9 @@ export default {
   methods: {
     addItem(){
       this.$store.commit('popupOpen', {type: FormAddItem})
+    },
+    removeItem(i){
+      console.log(i);
     }
   }
 };
