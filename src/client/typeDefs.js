@@ -58,6 +58,7 @@ export default gql`
        addPayment(id: String!, value: Float! provider: String) : Payment!
        addItem(orderId: String!, quantity: Int!, itemId: String!) : ConsumedItem!
        removeItem(orderId: String!, itemId: String!): ConsumedItem!
+       removePayment(orderId: String!, paymentId: String!): Payment!
    }
 
 `

@@ -111,7 +111,7 @@ export default {
             order.closedAt = new Date();
             return order;
         },
-        newOrder: (root, {tableNumber}) => {
+        newOrder: (root, { tableNumber }) => {
             const newOrder = {
                 consumedItems: [],
                 payments: [],
@@ -149,10 +149,16 @@ export default {
             order.consumedItems.push(consumedItem);
             return consumedItem;
         },
-        removeItem(root, {orderId, itemId}){
+        removeItem(root, { orderId, itemId }) {
             const order = findOrder(orderId);
             const toRemove = _.find(order.consumedItems, item => item.id === itemId);
-            _.remove(order.consumedItems, item =>item.id === itemId);
+            _.remove(order.consumedItems, item => item.id === itemId);
+            return toRemove;
+        },
+        removePayment(root, { orderId, paymentId }) {
+            const order = findOrder(orderId);
+            const toRemove = _.find(order.payments, item => item.id === paymentId);
+            _.remove(order.consumedItems, item => item.id === paymentId);
             return toRemove;
         }
     }),
