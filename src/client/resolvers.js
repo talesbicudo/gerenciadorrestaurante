@@ -96,10 +96,8 @@ export default {
 
     Query: () => ({
         dayOrders: () => {
-            const data = fp.compose(
-                fp.sortBy(['table.number', 'createdAt']),
-                fp.uniqBy("table.number")
-            )(_.last(days).orders)
+            const groupedData = Object.values(_.groupBy(_.last(days).orders, "table.number"));
+            const data = groupedData.map(fp.maxBy("createdAt"));
             return data;
         }
 
@@ -112,6 +110,20 @@ export default {
             order.open = false;
             order.closedAt = new Date();
             return order;
+        },
+        newOrder: (root, {tableNumber}) => {
+            const newOrder = {
+                consumedItems: [],
+                payments: [],
+                open: true,
+                table: orders.find(order => order.table.number === tableNumber).table,
+                createdAt: new Date(),
+                closedAt: null,
+                id: faker.random.uuid(),
+                number: orders.length + 1,
+            }
+            orders.push(newOrder);
+            return newOrder;
         },
         addPayment: (root, args) => {
             const { id, value } = args;
