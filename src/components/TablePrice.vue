@@ -14,7 +14,7 @@
                 :key="i">
                     {{attr.value | formatPrice(attr.isPrice)}}
                 </td>
-                <td  class="table-price__body-cell table-price__body-cell--remove">
+                <td v-if="editable" class="table-price__body-cell table-price__body-cell--remove">
                   <button @click="$emit('remove', i)" href="#">
                     <RemoveIcon/>
                   </button>
@@ -42,6 +42,10 @@ export default {
   mixins: [FormatPrice],
   components: { RemoveIcon },
   props: {
+    editable: {
+      type: Boolean,
+      default: false
+    },
     attributes: {
       type: Array,
       default: () => [

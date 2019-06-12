@@ -1,6 +1,6 @@
 <template>
     <div class="table-price-items" v-if="!$apollo.queries.order.loading">
-      <TablePrice @remove="callRemoveItem" name="items"  :attributes="tableAttrs">
+      <TablePrice :editable="order.open" @remove="callRemoveItem" name="items"  :attributes="tableAttrs">
           <template v-slot:total-cell-name>Total</template>
           <template v-slot:total-cell-value>{{order.totalPrice | formatPrice}}</template>
       </TablePrice>
