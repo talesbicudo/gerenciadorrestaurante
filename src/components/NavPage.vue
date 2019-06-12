@@ -35,7 +35,7 @@ export default {
 .nav-page {
   z-index: 200;
   $size: 4rem;
-  position: absolute;
+  position: fixed;
   top: 50%;
   transition: all 0.3s;
   font-size: $font-size-large;

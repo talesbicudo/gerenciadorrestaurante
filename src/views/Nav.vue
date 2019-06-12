@@ -1,8 +1,15 @@
 <template>
     <nav class="nav">
         <div class="nav__selectors">
-            <NavPage @click="toDetails" v-if="isSelectionPage && hasSelectedId"/>
-            <NavPage @click="toSelection" v-if="isDetailsPage" left/>
+            <NavPage 
+            class="nav__nav-page"
+            @click="toDetails" 
+            v-if="isSelectionPage && hasSelectedId"/>
+            <NavPage 
+            class="nav__nav-page"
+            @click="toSelection" 
+            v-if="isDetailsPage" 
+            left/>
         </div>
     </nav>
 </template>
@@ -40,24 +47,8 @@ export default {
 
 <style lang="scss">
 .nav {
-  h1 {
-    text-align: center;
-  }
-  position: fixed;
-  top: 50%;
-  width: 100%;
-  height: 6rem;
-  z-index: 1;
-  &__selectors {
-    position: absolute;
-
-    width: 100%;
-    opacity: 1;
-    transition: all #{$page-transition-time};
-    display: block;
-    @include respond(tab-land) {
-      opacity: 0;
-    }
-  }
+ @include respond(tab-land) {
+   display: none;
+ }
 }
 </style>
