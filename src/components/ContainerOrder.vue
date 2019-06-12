@@ -5,7 +5,7 @@
           <Input 
             class="order-container__search order-container__search--number"
             id="number"
-            placeholder="Mesa"
+            placeholder="Núm."
             :inputProps="numberSubProps"
             v-model="numberSearch"
            />
