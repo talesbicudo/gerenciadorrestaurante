@@ -5,8 +5,8 @@
             <div class="form-add-item__search">
                 <Input v-model="search" type="search" placeholder="Procurar Item"/>
                 <div name="items" class="form-add-item__search-list">
-                   <div v-for="item in searchedItems" :key="item.id" :value="item.id">
-                       {{item.name}}
+                   <div class="form-add-item__search-item" v-for="item in searchedItems" :key="item.id" :value="item.id">
+                      <span> {{item.name}}</span>
                       <button type="button" @click="addItemForm(item.id)"><AddIcon/></button>
                     </div>
                 </div>
@@ -39,7 +39,6 @@ import gql from "graphql-tag";
 import _ from "lodash";
 import AddIcon from "vue-ionicons/dist/md-add";
 import RemoveIcon from "vue-ionicons/dist/md-remove";
-const LIMIT = 3;
 
 export default {
   mixins: [StoreSelectedId],
@@ -77,7 +76,9 @@ export default {
     },
     addItems() {
       Promise.all(
-        Object.values(this.selected).map(data =>
+        Object.values(this.selected)
+        .filter(({quantity}) => quantity > 0)
+        .map(data =>
           this.addItem(data)
         )
       ).then(() => this.$store.commit("popupClose"));
@@ -125,7 +126,28 @@ export default {
 <style lang="scss">
 .form-add-item {
   $height: 50vh;
+  &__search-item {
+    $child-padding: 1rem;
+    &:nth-of-type(even){
+      background-color: $color-white;
+      color: $color-grey-dark;
+    }
+    span {
+      font-size: $font-size-big;
+      padding-left: $child-padding;
+      float: left;
+    }
+    button {
+      font-size: $font-size-big;
+      fill: $color-grey-dark;
+      padding-right: $child-padding;
+      float: right;
+    }
+    @include clearfix;
+  }
   &__search-list {
+    border-radius: 2px;
+    border: 1px solid $color-grey-dark;
     width: 30%;
     overflow-y: auto;
     float: left;
@@ -142,9 +164,18 @@ export default {
     input {
       display: inline-block;
     }
+    label {
+      font-size: $font-size-big;
+    } 
+    > button {
+      font-size: $font-size-big;
+      color: $color-grey-dark;
+      margin-left: .5rem;
+    }
   }
+
   &__submit {
-    margin-top: 12rem;
+    padding-top: 1rem;
     clear: both;
     display: block;
   }
