@@ -7,7 +7,7 @@
                 </tr>
             </thead>
             <tbody>
-            <tr v-for="(row, i) in attrRows" 
+            <tr class="table-price__row-body" v-for="(row, i) in attrRows" 
             :key="`row-${name}-${i}`">
                 <td class="table-price__body-cell"
                 v-for="(attr, i) in row"
@@ -79,6 +79,12 @@ export default {
 
 <style lang="scss">
 .table-price {
+  &__row-body {
+    color: $color-black;
+    &:nth-of-type(odd){
+      background-color: $color-white;
+    }
+  }
   margin-bottom: 2rem;
   &__table {
     border: 3px solid $color-black;
