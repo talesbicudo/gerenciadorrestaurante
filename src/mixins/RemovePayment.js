@@ -1,5 +1,6 @@
 import gql from "graphql-tag";
-import {Container, TablePayments} from "@/client/queries";
+import { Container, TablePayments, OrderFragment } from "@/client/queries";
+import _ from "lodash";
 
 export default {
     methods: {
@@ -12,6 +13,11 @@ export default {
                         }
                     }
                 `,
+                update(client, { data: { removePayment } }) {
+                    const data = client.readFragment({ fragment: OrderFragment, id: orderId });
+                    _.remove(data.payments, payment => payment.id === removePayment.id);
+                    client.writeFragment({ data, fragment: OrderFragment, id: orderId });
+                },
                 variables: { orderId, paymentId },
                 refetchQueries: [
                     { query: Container },
