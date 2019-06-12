@@ -11,7 +11,7 @@
           <p>N° {{order.number}}</p>
         </div>
         <div class="item-order__info">
-          <p v-if="order.open"><TimeIcon class="item-order__time-icon"/> {{updateLast | time}}</p>
+          <p v-if="order.open"><TimeIcon class="item-order__time-icon"/> {{order.createdAt | time }}</p>
           <p v-else> <LockIcon class="item-order__time-icon"/> {{order.closedAt | time}}</p>
         </div>
         <div v-if="search" class="item-order__search-info">
@@ -71,8 +71,8 @@ export default {
             }
             number
             closedAt
+            createdAt
             open
-            closedAt
             updates @client
             searchTags @client
           }

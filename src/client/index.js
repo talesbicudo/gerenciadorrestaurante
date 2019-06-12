@@ -4,6 +4,8 @@ import { SchemaLink } from 'apollo-link-schema'
 import typeDefs from './typeDefs';
 import resolvers from './resolvers';
 import localResolvers from './localResolvers';
+import { persistCache } from 'apollo-cache-persist';
+
 import {
     makeExecutableSchema,
     addMockFunctionsToSchema
@@ -18,7 +20,13 @@ addMockFunctionsToSchema({
     preserveResolvers: true
 })
 
-const cache = new InMemoryCache({dataIdFromObject: object => object.id})
+const cache = new InMemoryCache({ dataIdFromObject: object => object.id })
+
+export const waitOnCache = persistCache({
+    cache,
+    storage: window.localStorage,
+});
+
 
 
 export default new ApolloClient({
