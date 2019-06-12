@@ -13,7 +13,8 @@ export default {
                 anoF = data.getFullYear();
             return diaF + "/" + mesF + "/" + anoF;
         },
-        time: function (date) {
+        time: function (rawDate) {
+            const date = new Date(rawDate);
             return `${twoDigits(date.getHours())}:${twoDigits(date.getMinutes())}`
         }
     }
