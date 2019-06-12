@@ -9,7 +9,7 @@
 <script>
 import gql from "graphql-tag";
 import NewOrder from "@/mixins/NewOrder";
-import MOBILE from "@/types/MobilePage"
+import MOBILE from "@/types/MobilePage";
 export default {
   mixins: [NewOrder],
   props: {
@@ -40,7 +40,14 @@ export default {
       this.newOrder(this.order.table.number).then(
         ({ data: { newOrder: { id } } }) => {
           this.$store.commit("orderSelect", { selectedId: id });
-          this.$store.commit("mobilePageChange", {type: MOBILE.ORDER_DETAILS})
+          this.$store.commit("mobilePageChange", {
+            type: MOBILE.ORDER_DETAILS
+          });
+          window.scroll({
+            top: 0,
+            left: 0,
+            behavior: "smooth"
+          });
         }
       );
     }
