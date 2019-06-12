@@ -1,6 +1,6 @@
 <template>
     <div class="table-price-items" v-if="!$apollo.queries.order.loading">
-      <TablePrice @remove="removeItem" name="items"  :attributes="tableAttrs">
+      <TablePrice @remove="callRemoveItem" name="items"  :attributes="tableAttrs">
           <template v-slot:total-cell-name>Total</template>
           <template v-slot:total-cell-value>{{order.totalPrice | formatPrice}}</template>
       </TablePrice>
@@ -12,11 +12,11 @@ import _ from "lodash";
 import {TableItems} from "@/client/queries";
 import FormatPrice from "@/mixins/FormatPrice";
 import StoreSelectedId from '@/mixins/StoreSelectedId'
+import RemoveItem from "@/mixins/RemoveItem";
 import TablePrice from "./TablePrice";
 import FormAddItem from "./FormAddItem";
-
 export default {
-  mixins: [FormatPrice, StoreSelectedId],
+  mixins: [FormatPrice, StoreSelectedId, RemoveItem],
   components: { TablePrice },
   apollo: {
     order: {
@@ -41,8 +41,9 @@ export default {
     addItem(){
       this.$store.commit('popupOpen', {type: FormAddItem})
     },
-    removeItem(i){
-      console.log(i);
+    callRemoveItem(i){
+      const itemToRemoveId = this.order.consumedItems[i].id;
+      this.removeItem(this.storeSelectedId, itemToRemoveId);
     }
   }
 };

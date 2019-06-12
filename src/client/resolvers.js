@@ -148,6 +148,12 @@ export default {
             }
             order.consumedItems.push(consumedItem);
             return consumedItem;
+        },
+        removeItem(root, {orderId, itemId}){
+            const order = findOrder(orderId);
+            const toRemove = _.find(order.consumedItems, item => item.id === itemId);
+            _.remove(order.consumedItems, item =>item.id === itemId);
+            return toRemove;
         }
     }),
 }
