@@ -1,7 +1,7 @@
 <template>
     <div class="form-add-payment">
         <h1>Pagamento</h1>
-        <form @submit.prevent="addPayment" action="" class="form-add-payment__form">
+        <form @submit.prevent="callAddPayment" action="" class="form-add-payment__form">
             <CurrencyInput ref="currencyInput" 
             class="form-add-payment__all input--default "
              v-model="value" 
@@ -17,10 +17,11 @@
 </template>
 
 <script>
-import gql from "graphql-tag";
-import { OrderFragment, TablePayments, Container } from "@/client/queries";
 import Input from "./TheInput";
+import AddPayment from "@/mixins/AddPayment";
+
 export default {
+  mixins: [AddPayment],
   components: { Input },
   data() {
     return {
@@ -42,7 +43,7 @@ export default {
     setToPay() {
       this.value = this.toPay;
     },
-    addPayment() {
+    callAddPayment() {
       const client = this.client || "Anônimo";
       const value = this.$parseCurrency(
         this.value || "0",
@@ -54,40 +55,9 @@ export default {
         return;
       }
       const id = this.selectedId;
-      this.$apollo
-        .mutate({
-          mutation: gql`
-            mutation($id: String!, $value: Float!, $client: String) {
-              addPayment(value: $value, id: $id, provider: $client) {
-                id
-                provider
-                value
-                createdAt
-              }
-            }
-          `,
-          variables: {
-            id,
-            value,
-            client
-          },
-          update(client, { data: { addPayment } }) {
-            const data = client.readFragment({ id, fragment: OrderFragment });
-            data.payments.push(addPayment);
-            client.writeFragment({
-              id,
-              fragment: OrderFragment,
-              data
-            });
-          },
-          refetchQueries: [
-            { query: Container },
-            { query: TablePayments, variables: { id } }
-          ]
-        })
-        .then(() => {
-          this.$store.commit("popupClose");
-        });
+      this.addPayment(id, value, client).then(() => {
+        this.$store.commit("popupClose");
+      });
     }
   }
 };
