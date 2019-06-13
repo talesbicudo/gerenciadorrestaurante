@@ -6,6 +6,7 @@ faker.locale = "pt_BR";
 faker.seed(3);
 const ITEM_QUANTITY = 20;
 const ORDERS_QUANTITY = 30;
+const LOCAL_NAME = "APOLLO_RESOLVER_FAKE_DB";
 
 const OPEN_DATE = new Date();
 OPEN_DATE.setHours(OPEN_DATE.getHours() - 1);
@@ -13,26 +14,30 @@ const CLOSE_DATE = new Date();
 
 const table = (number) => ({
     id: faker.random.uuid(),
-    number
+    number,
+    __typename: "Table"
 })
 
 const day = (date, orders) => ({
     date: date.toString(),
     id: faker.random.uuid(),
-    orders
+    orders,
+    __typename: "Day"
 })
 
 const payment = (value, createdAt) => ({
     provider: faker.name.firstName(),
     value,
     createdAt: faker.date.between(createdAt, CLOSE_DATE),
-    id: faker.random.uuid()
+    id: faker.random.uuid(),
+    __typename: "Payment"
 })
 
 const item = (limit) => ({
     name: faker.lorem.word(),
     value: +faker.commerce.price(1, limit),
-    id: faker.random.uuid()
+    id: faker.random.uuid(),
+    __typename: "ItemType"
 })
 
 let items = [...Array(ITEM_QUANTITY)].map(() => item(100));
@@ -41,7 +46,8 @@ const consumedItem = (createdAt) => ({
     id: faker.random.uuid(),
     itemType: items[faker.random.number(ITEM_QUANTITY - 1)],
     quantity: faker.random.number({ min: 1, max: 3 }),
-    createdAt: faker.date.between(createdAt, CLOSE_DATE)
+    createdAt: faker.date.between(createdAt, CLOSE_DATE),
+    __typename: "ConsumedItem"
 })
 const createOrder = (numberTable) => {
     const createdAt = faker.date.between(OPEN_DATE, CLOSE_DATE);
@@ -70,16 +76,28 @@ const createOrder = (numberTable) => {
         table: table(numberTable),
         createdAt,
         closedAt: !open ? faker.date.between(lastPaymentDate, CLOSE_DATE) : null,
-        id: faker.random.uuid()
+        id: faker.random.uuid(),
+        __typename: "Order"
     }
 }
 
-const findOrder = id => orders.find(order => order.id === id);
 const findItemType = id => items.find(item => item.id === id);
 
 let orders = [...Array(ORDERS_QUANTITY).keys()].map(i => createOrder(++i));
 orders = _.sortBy(orders, 'createdAt').map((order, i) => ({ ...order, number: i }));
 let days = ([day(OPEN_DATE, orders)]);
+let localDays  = window.localStorage.getItem(LOCAL_NAME);
+
+if(localDays){
+    days = JSON.parse(localDays);
+}
+
+function writeLocal() {
+   window.localStorage.setItem(LOCAL_NAME, JSON.stringify(days));
+}
+
+const findOrder = id => _.head(days).orders.find(order => order.id === id);
+const idByDate = () => (new Date()).getTime().toString();
 
 export default {
     ID: (root) => {
@@ -109,6 +127,7 @@ export default {
             const order = findOrder(id);
             order.open = false;
             order.closedAt = new Date();
+            writeLocal();
             return order;
         },
         newOrder: (root, { tableNumber }) => {
@@ -119,46 +138,53 @@ export default {
                 table: orders.find(order => order.table.number === tableNumber).table,
                 createdAt: new Date(),
                 closedAt: null,
-                id: faker.random.uuid(),
+                id: idByDate(),
                 number: orders.length + 1,
+                __typename: "Order"
             }
-            orders.push(newOrder);
+            _.head(days).orders.push(newOrder);
+            writeLocal();
             return newOrder;
         },
         addPayment: (root, args) => {
             const { id, value } = args;
             const order = findOrder(id);
             const newPayment = {
-                id: faker.random.uuid(),
+                id: idByDate(),
                 provider: args.provider || "",
                 createdAt: new Date(),
-                value
+                value,
+                __typename: "Payment"
             }
             order.payments.push(newPayment)
-
+            writeLocal();
             return newPayment;
         },
         addItem(root, { orderId, quantity, itemId }) {
             const order = findOrder(orderId);
             const consumedItem = {
-                id: faker.random.uuid(),
+                id: idByDate(),
                 createdAt: new Date(),
                 itemType: findItemType(itemId),
-                quantity
+                quantity,
+                __typename: "ConsumedItem"
             }
             order.consumedItems.push(consumedItem);
+            writeLocal();
             return consumedItem;
         },
         removeItem(root, { orderId, itemId }) {
             const order = findOrder(orderId);
             const toRemove = _.find(order.consumedItems, item => item.id === itemId);
             _.remove(order.consumedItems, item => item.id === itemId);
+            writeLocal();
             return toRemove;
         },
         removePayment(root, { orderId, paymentId }) {
             const order = findOrder(orderId);
             const toRemove = _.find(order.payments, item => item.id === paymentId);
             _.remove(order.payments, item => item.id === paymentId);
+            writeLocal();
             return toRemove;
         }
     }),
