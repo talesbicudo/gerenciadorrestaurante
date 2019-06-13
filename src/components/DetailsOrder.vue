@@ -81,3 +81,15 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+.details-order {
+  h1,
+  h2 {
+    padding-left: $heading-padding;
+  }
+  &__close-order {
+    padding-left: $heading-padding;
+  }
+}
+</style>
