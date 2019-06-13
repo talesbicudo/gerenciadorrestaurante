@@ -1,5 +1,7 @@
 # Gerenciador restaurante
 
+Dados gerenciados com vue apollo. Servidor GraphQL com DB mockado. 
+
 ## Project setup
 ```
 yarn install
@@ -19,14 +21,3 @@ yarn run build
 ```
 yarn run test
 ```
-
-### Lints and fixes files
-```
-yarn run lint
-```
-
-### Run your unit tests
-```
-yarn run test:unit
-```
-
